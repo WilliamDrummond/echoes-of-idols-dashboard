@@ -346,7 +346,7 @@
         <div class="header">
             <div>
                 <h1>🦞 Echoes of Idols</h1>
-                <p class="subtitle">Thangs Performance • Feb 8, 2026 (Updated)</p>
+                <p class="subtitle">Thangs Performance • Feb 9, 2026 (Updated)</p>
             </div>
             <div class="tabs">
                 <button class="tab active" onclick="showTab('models')">Models</button>
@@ -360,7 +360,7 @@
             <div class="dashboard-grid">
                 <div class="glass stat-card">
                     <div class="stat-label">Total Views</div>
-                    <div class="stat-value">8,500</div>
+                    <div class="stat-value">8.5K</div>
                 </div>
                 <div class="glass stat-card">
                     <div class="stat-label">Downloads</div>
@@ -371,8 +371,8 @@
                     <div class="stat-value">152</div>
                 </div>
                 <div class="glass stat-card">
-                    <div class="stat-label">Models</div>
-                    <div class="stat-value">22</div>
+                    <div class="stat-label">Downloads (GB)</div>
+                    <div class="stat-value">2.83GB</div>
                 </div>
             </div>
 
@@ -571,11 +571,11 @@
 
         function renderTopModels() {
             const models = [
-                {name:"STAYZOO STAY Angel NFC Keychain", views:1172, likes:9, downloads:36},
-                {name:"SKZOO Interchangeable Headband", views:442, likes:9, downloads:14},
-                {name:"TWICE Lightstick Stand", views:458, likes:3, downloads:9},
-                {name:"Stray Kids Wool Spinner", views:627, likes:8, downloads:9},
-                {name:"BbokAri Fried Chicken Stand", views:347, likes:8, downloads:8}
+                {name:"STAYZOO STAY Angel Stray Kids Mascot NFC Keychain", views:1172, likes:9, downloads:36},
+                {name:"Evil Skzoo Hoodie Charms - Stray Kids SKZ", views:1476, likes:21, downloads:32},
+                {name:"SKZOO Interchangeable Headband - Stray Kids Kpop", views:442, likes:9, downloads:14},
+                {name:"Stray Kids Wool Spinner - Nachimbong Themed", views:627, likes:8, downloads:9},
+                {name:"TWICE Lightstick Stand for Candybong Ver 1, 2 & 3", views:458, likes:3, downloads:9}
             ];
             const list = document.getElementById('top-models-list');
             list.innerHTML = models.map((m, i) => `
@@ -592,21 +592,16 @@
 
         function renderMembers() {
             const members = [
-                {profile:"taravens",plan:"General Admission",price:"$10.00",subscribedFor:"about 19 hours",status:"Active",estLTV:"$10.00"},
-                {profile:"robertormaribel3",plan:"Sound Check",price:"$19.90",subscribedFor:"2 days",status:"Active",estLTV:"$19.90"},
+                {profile:"taravens",plan:"General Admission",price:"$10.00",subscribedFor:"about 23 hours",status:"Active",estLTV:"$10.00"},
+                {profile:"robertormaribel3",plan:"Sound Check",price:"$19.90",subscribedFor:"3 days",status:"Active",estLTV:"$19.90"},
                 {profile:"lordgraf.paola",plan:"VIP Access",price:"$39.90",subscribedFor:"5 days",status:"Active",estLTV:"$39.90"},
-                {profile:"andrearosin13",plan:"VIP Access",price:"$39.90",subscribedFor:"5 days",status:"Active",estLTV:"$39.90"},
+                {profile:"andrearosin13",plan:"VIP Access",price:"$39.90",subscribedFor:"6 days",status:"Active",estLTV:"$39.90"},
                 {profile:"sebalofer",plan:"General Admission",price:"$10.00",subscribedFor:"6 days",status:"Active",estLTV:"$10.00"},
                 {profile:"paulafontaoschiavone",plan:"General Admission",price:"$10.00",subscribedFor:"7 days",status:"Active",estLTV:"$10.00"},
                 {profile:"caeseystewart",plan:"General Admission",price:"$10.00",subscribedFor:"9 days",status:"Active",estLTV:"$10.00"},
                 {profile:"cqggg7mqcn",plan:"Sound Check",price:"$19.90",subscribedFor:"9 days",status:"Active",estLTV:"$19.90"},
-                {profile:"elerihamilton",plan:"General Admission",price:"$10.00",subscribedFor:"10 days",status:"Active",estLTV:"$10.00"},
-                {profile:"aprillynnganster",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
-                {profile:"nickimazon",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
-                {profile:"mimi29693",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
-                {profile:"aspricer",plan:"Sound Check",price:"$19.90",subscribedFor:"12 days",status:"Active",estLTV:"$19.90"},
-                {profile:"jemeek.27",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
-                {profile:"amyologist510",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
+                {profile:"elerihamilton",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
+                {profile:"aprillynnganster",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"}
             ];
             const tbody = document.getElementById('members-tbody');
             tbody.innerHTML = members.map(m => {
@@ -631,9 +626,9 @@
             new Chart(document.getElementById('viewsChart'), {
                 type: 'bar',
                 data: {
-                    labels: ['STAYZOO', 'Wool Spinner', 'TWICE', 'Headband', 'BbokAri', 'Jiniret', 'BTS BT21', 'Han Quokka', 'NewJeans', 'BTS Trans'],
+                    labels: ['Evil Hoodie', 'STAYZOO', 'Wolf Chan', 'BbokAri', 'Leebit', 'TWICE', 'Headband', 'BbokAri FC', 'Jiniret', 'PuppyM'],
                     datasets: [{
-                        data: [1172, 627, 458, 442, 347, 242, 219, 192, 145, 41],
+                        data: [1476, 1172, 932, 573, 477, 458, 442, 347, 242, 235],
                         backgroundColor: accentDim,
                         hoverBackgroundColor: accentColor,
                         borderRadius: 4,
@@ -653,12 +648,12 @@
             new Chart(document.getElementById('downloadsDonut'), {
                 type: 'doughnut',
                 data: {
-                    labels: ['STAYZOO', 'Headband', 'TWICE', 'Wool Spinner', 'BbokAri', 'Others'],
+                    labels: ['STAYZOO', 'Evil Hoodie', 'Headband', 'TWICE', 'Wool Spinner', 'Others'],
                     datasets: [{
-                        data: [36, 14, 9, 9, 8, 164],
+                        data: [36, 32, 14, 9, 9, 140],
                         backgroundColor: [
-                            'rgba(168, 85, 247, 1)', 'rgba(168, 85, 247, 0.75)', 'rgba(168, 85, 247, 0.55)',
-                            'rgba(168, 85, 247, 0.4)', 'rgba(168, 85, 247, 0.25)', 'rgba(255, 255, 255, 0.08)'
+                            'rgba(168, 85, 247, 1)', 'rgba(168, 85, 247, 0.85)', 'rgba(168, 85, 247, 0.7)',
+                            'rgba(168, 85, 247, 0.5)', 'rgba(168, 85, 247, 0.3)', 'rgba(255, 255, 255, 0.08)'
                         ],
                         borderWidth: 0, hoverOffset: 6
                     }]
