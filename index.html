@@ -85,9 +85,7 @@
             transition: border-color 0.2s;
         }
 
-        .password-input:focus {
-            border-color: var(--accent);
-        }
+        .password-input:focus { border-color: var(--accent); }
 
         .password-button {
             width: 100%;
@@ -133,7 +131,7 @@
             font-size: 0.875rem;
         }
 
-        .tabs {
+        .tabs, .sub-tabs {
             display: flex;
             gap: 4px;
             background: var(--glass-bg);
@@ -142,7 +140,7 @@
             border: 1px solid var(--glass-border);
         }
 
-        .tab {
+        .tab, .sub-tab {
             padding: 10px 20px;
             border: none;
             background: transparent;
@@ -155,10 +153,15 @@
             transition: all 0.2s ease;
         }
 
-        .tab:hover { color: var(--text-primary); }
-        .tab.active {
+        .tab:hover, .sub-tab:hover { color: var(--text-primary); }
+        .tab.active, .sub-tab.active {
             background: var(--accent);
             color: #fff;
+        }
+
+        .sub-tabs {
+            margin-bottom: 24px;
+            display: inline-flex;
         }
 
         .glass {
@@ -169,8 +172,8 @@
             border-radius: 12px;
         }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content, .sub-tab-content { display: none; }
+        .tab-content.active, .sub-tab-content.active { display: block; }
 
         /* Grid Layouts */
         .dashboard-grid, .members-grid, .insights-grid, .etsy-grid {
@@ -473,81 +476,75 @@
 
         <!-- Etsy Tab -->
         <div id="etsy-tab" class="tab-content">
-            <div class="etsy-grid">
-                <div class="glass stat-card etsy-card">
-                    <div class="stat-label">Orders (30d)</div>
-                    <div class="stat-value">40</div>
-                </div>
-                <div class="glass stat-card etsy-card">
-                    <div class="stat-label">Avg. Order Value</div>
-                    <div class="stat-value">A$63.12</div>
-                </div>
-                <div class="glass stat-card etsy-card">
-                    <div class="stat-label">Net Revenue (30d)</div>
-                    <div class="stat-value">A$2,525</div>
-                </div>
-                <div class="glass stat-card etsy-card">
-                    <div class="stat-label">Primary Market</div>
-                    <div class="stat-value">USA (56%)</div>
-                </div>
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubTab('echoes')">Echoes of Idols</button>
+                <button class="sub-tab" onclick="showSubTab('finery8')">Finery8 (Jess)</button>
             </div>
 
-            <div class="charts-row">
-                <div class="glass chart-card">
-                    <h3>Top 5 Etsy Products (Echoes)</h3>
-                    <div class="model-list">
-                        <div class="model-item">
-                            <div class="model-rank">1</div>
-                            <div class="model-info">
-                                <div class="model-name">SKZOO OT8 Lightstick Stand</div>
-                                <div class="model-stats">High volume • Multi-item orders</div>
-                            </div>
-                            <div class="model-downloads">24</div>
-                        </div>
-                        <div class="model-item">
-                            <div class="model-rank">2</div>
-                            <div class="model-info">
-                                <div class="model-name">SKZ Jibbitz for Crocs</div>
-                                <div class="model-stats">Low weight • High margin</div>
-                            </div>
-                            <div class="model-downloads">12</div>
-                        </div>
-                        <div class="model-item">
-                            <div class="model-rank">3</div>
-                            <div class="model-info">
-                                <div class="model-name">Leebit SKZOO Lightstick Stand</div>
-                                <div class="model-stats">Consistent single-unit sales</div>
-                            </div>
-                            <div class="model-downloads">12</div>
-                        </div>
-                        <div class="model-item">
-                            <div class="model-rank">4</div>
-                            <div class="model-info">
-                                <div class="model-name">SKZOO Cookie Cutters (Set of 8)</div>
-                                <div class="model-stats">High AOV contributor</div>
-                            </div>
-                            <div class="model-downloads">10</div>
-                        </div>
+            <!-- Echoes Sub-Tab -->
+            <div id="echoes-sub-tab" class="sub-tab-content active">
+                <div class="etsy-grid">
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Pending Orders</div>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Avg. Order Value</div>
+                        <div class="stat-value">A$64.59</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Net Revenue</div>
+                        <div class="stat-value">A$4,867</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Top Market</div>
+                        <div class="stat-value">USA</div>
                     </div>
                 </div>
-                <div class="glass chart-card">
-                    <h3>Geographic Reach</h3>
-                    <div class="chart-container">
-                        <canvas id="etsyGeoChart"></canvas>
+                <div class="charts-row">
+                    <div class="glass chart-card">
+                        <h3>Top Echoes Products (by Volume)</h3>
+                        <div id="echoes-products-list" class="model-list"></div>
+                    </div>
+                    <div class="glass chart-card">
+                        <h3>Geographic Spread</h3>
+                        <div class="chart-container">
+                            <canvas id="echoesGeoChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="glass chart-card">
-                <h3>Etsy Business Insights (ShipStation Analysis)</h3>
-                <div class="insights-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 16px;">
-                    <div class="idea-item">
-                        <span class="idea-name">📦 Shipping Strategy</span>
-                        <p class="idea-desc">56% of your orders are shipping to the **US**, while 37% are local **AU** orders. The high US volume justifies your current international flat-rate pricing, but look at consolidated shipping for bulk US orders to increase margins.</p>
+            <!-- Finery8 Sub-Tab -->
+            <div id="finery8-sub-tab" class="sub-tab-content">
+                <div class="etsy-grid">
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Pending Orders</div>
+                        <div class="stat-value">1</div>
                     </div>
-                    <div class="idea-item">
-                        <span class="idea-name">💎 High-Value Product</span>
-                        <p class="idea-desc">The **SKZOO Cookie Cutters** are a strong performer. Since they drive higher transaction values, consider a 'Baking Bundle' listing on Etsy to cross-sell with smaller accessories.</p>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Avg. Order Value</div>
+                        <div class="stat-value">A$61.66</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Net Revenue</div>
+                        <div class="stat-value">A$4,359</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Top Market</div>
+                        <div class="stat-value">USA</div>
+                    </div>
+                </div>
+                <div class="charts-row">
+                    <div class="glass chart-card">
+                        <h3>Top Finery8 Products (by Volume)</h3>
+                        <div id="finery8-products-list" class="model-list"></div>
+                    </div>
+                    <div class="glass chart-card">
+                        <h3>Geographic Spread</h3>
+                        <div class="chart-container">
+                            <canvas id="fineryGeoChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -620,15 +617,24 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
             document.getElementById(tab + '-tab').classList.add('active');
-            
             document.querySelectorAll('.tab').forEach(btn => {
-                if(btn.innerText.toLowerCase() === tab) btn.classList.add('active');
+                if(btn.innerText.toLowerCase().includes(tab)) btn.classList.add('active');
+            });
+        }
+
+        function showSubTab(subtab) {
+            document.querySelectorAll('.sub-tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.sub-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(subtab + '-sub-tab').classList.add('active');
+            document.querySelectorAll('.sub-tab').forEach(btn => {
+                if(btn.innerText.toLowerCase().includes(subtab)) btn.classList.add('active');
             });
         }
 
         function initDashboard() {
             renderTopModels();
             renderMembers();
+            renderEtsyProducts();
             initCharts();
         }
 
@@ -653,6 +659,37 @@
             `).join('');
         }
 
+        function renderEtsyProducts() {
+            const echoes = [
+                {name:"SKZOO OT8 Lightstick Stand", count:24},
+                {name:"SKZ Jibbitz for Crocs", count:12},
+                {name:"Leebit SKZOO Lightstick Stand", count:12},
+                {name:"SKZOO Cookie Cutters Set of 8", count:10}
+            ];
+            const finery = [
+                {name:"STAY Heart Tag Necklace", count:57},
+                {name:"Stray Kids SKZ Necklace", count:32},
+                {name:"Nachim Bracelet", count:9},
+                {name:"Nachim Bracelet [Preorder]", count:8}
+            ];
+            
+            document.getElementById('echoes-products-list').innerHTML = echoes.map((p, i) => `
+                <div class="model-item">
+                    <div class="model-rank">${i+1}</div>
+                    <div class="model-info"><div class="model-name">${p.name}</div></div>
+                    <div class="model-downloads">${p.count}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('finery8-products-list').innerHTML = finery.map((p, i) => `
+                <div class="model-item">
+                    <div class="model-rank">${i+1}</div>
+                    <div class="model-info"><div class="model-name">${p.name}</div></div>
+                    <div class="model-downloads">${p.count}</div>
+                </div>
+            `).join('');
+        }
+
         function renderMembers() {
             const members = [
                 {profile:"taravens",plan:"General Admission",price:"$10.00",subscribedFor:"about 19 hours",status:"Active",estLTV:"$10.00"},
@@ -660,25 +697,11 @@
                 {profile:"lordgraf.paola",plan:"VIP Access",price:"$39.90",subscribedFor:"5 days",status:"Active",estLTV:"$39.90"},
                 {profile:"andrearosin13",plan:"VIP Access",price:"$39.90",subscribedFor:"5 days",status:"Active",estLTV:"$39.90"},
                 {profile:"sebalofer",plan:"General Admission",price:"$10.00",subscribedFor:"6 days",status:"Active",estLTV:"$10.00"},
-                {profile:"paulafontaoschiavone",plan:"General Admission",price:"$10.00",subscribedFor:"7 days",status:"Active",estLTV:"$10.00"},
-                {profile:"caeseystewart",plan:"General Admission",price:"$10.00",subscribedFor:"9 days",status:"Active",estLTV:"$10.00"},
-                {profile:"cqggg7mqcn",plan:"Sound Check",price:"$19.90",subscribedFor:"9 days",status:"Active",estLTV:"$19.90"},
-                {profile:"elerihamilton",plan:"General Admission",price:"$10.00",subscribedFor:"10 days",status:"Active",estLTV:"$10.00"},
-                {profile:"aprillynnganster",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
             ];
             const tbody = document.getElementById('members-tbody');
             tbody.innerHTML = members.map(m => {
                 const planClass = m.plan.includes('VIP') ? 'vip' : m.plan.includes('Sound') ? 'sound' : 'general';
-                return `
-                    <tr>
-                        <td>${m.profile}</td>
-                        <td><span class="plan-badge ${planClass}">${m.plan}</span></td>
-                        <td>${m.price}</td>
-                        <td>${m.subscribedFor}</td>
-                        <td><span class="status-dot"></span>${m.status}</td>
-                        <td>${m.estLTV}</td>
-                    </tr>
-                `;
+                return `<tr><td>${m.profile}</td><td><span class="plan-badge ${planClass}">${m.plan}</span></td><td>${m.price}</td><td>${m.subscribedFor}</td><td><span class="status-dot"></span>${m.status}</td><td>${m.estLTV}</td></tr>`;
             }).join('');
         }
 
@@ -692,8 +715,7 @@
                     labels: ['STAYZOO', 'Wool Spinner', 'TWICE', 'Headband', 'BbokAri', 'Jiniret', 'BTS BT21', 'Han Quokka', 'NewJeans', 'BTS Trans'],
                     datasets: [{
                         data: [1172, 627, 458, 442, 347, 242, 219, 192, 145, 41],
-                        backgroundColor: accentDim,
-                        hoverBackgroundColor: accentColor,
+                        backgroundColor: accentDim, hoverBackgroundColor: accentColor,
                         borderRadius: 4, borderSkipped: false,
                     }],
                 },
@@ -739,17 +761,30 @@
                 options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
             });
 
-            new Chart(document.getElementById('etsyGeoChart'), {
+            new Chart(document.getElementById('echoesGeoChart'), {
                 type: 'polarArea',
                 data: {
-                    labels: ['USA', 'Australia', 'Canada', 'Others'],
+                    labels: ['USA', 'Australia', 'Canada'],
                     datasets: [{
-                        data: [56, 41, 4, 3],
-                        backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)', 'rgba(243, 112, 31, 0.2)'],
+                        data: [50, 41, 4],
+                        backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)'],
                         borderWidth: 0
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { r: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { display: false } } } }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+
+            new Chart(document.getElementById('fineryGeoChart'), {
+                type: 'polarArea',
+                data: {
+                    labels: ['USA', 'Australia', 'Germany'],
+                    datasets: [{
+                        data: [61, 15, 7],
+                        backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
         }
     </script>
