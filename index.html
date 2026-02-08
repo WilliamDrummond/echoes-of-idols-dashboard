@@ -38,6 +38,86 @@
             pointer-events: none;
         }
 
+        /* Password protection styles */
+        #password-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .password-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .password-container h2 {
+            margin-bottom: 24px;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .password-input:focus {
+            border-color: var(--accent);
+        }
+
+        .password-button {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .password-button:hover {
+            opacity: 0.9;
+        }
+
+        .password-button:active {
+            transform: scale(0.98);
+        }
+
+        #error-msg {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Main content hidden initially */
+        #dashboard-content {
+            display: none;
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -257,165 +337,176 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div>
-            <h1>🦞 Echoes of Idols</h1>
-            <p class="subtitle">Thangs Performance • Feb 8, 2026</p>
-        </div>
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('models')">Models</button>
-            <button class="tab" onclick="showTab('members')">Members</button>
+    <div id="password-screen">
+        <div class="password-container">
+            <h2>🦞 Echoes Mission Control</h2>
+            <input type="password" id="password-input" class="password-input" placeholder="Enter password" autofocus>
+            <button onclick="checkPassword()" class="password-button">Unlock Dashboard</button>
+            <p id="error-msg">Incorrect password.</p>
         </div>
     </div>
 
-    <!-- Models Tab -->
-    <div id="models-tab" class="tab-content active">
-        <div class="dashboard-grid">
-            <div class="glass stat-card">
-                <div class="stat-label">Total Views</div>
-                <div class="stat-value">8,400</div>
+    <div id="dashboard-content">
+        <div class="header">
+            <div>
+                <h1>🦞 Echoes of Idols</h1>
+                <p class="subtitle">Thangs Performance • Feb 8, 2026</p>
             </div>
-            <div class="glass stat-card">
-                <div class="stat-label">Downloads</div>
-                <div class="stat-value">238</div>
-            </div>
-            <div class="glass stat-card">
-                <div class="stat-label">Likes</div>
-                <div class="stat-value">152</div>
-            </div>
-            <div class="glass stat-card">
-                <div class="stat-label">Models</div>
-                <div class="stat-value">22</div>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('models')">Models</button>
+                <button class="tab" onclick="showTab('members')">Members</button>
             </div>
         </div>
 
-        <div class="charts-row">
-            <div class="glass chart-card">
-                <h3>Top 10 Models by Views</h3>
-                <div class="chart-container">
-                    <canvas id="viewsChart"></canvas>
+        <!-- Models Tab -->
+        <div id="models-tab" class="tab-content active">
+            <div class="dashboard-grid">
+                <div class="glass stat-card">
+                    <div class="stat-label">Total Views</div>
+                    <div class="stat-value">8,400</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-label">Downloads</div>
+                    <div class="stat-value">238</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-label">Likes</div>
+                    <div class="stat-value">152</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-label">Models</div>
+                    <div class="stat-value">22</div>
                 </div>
             </div>
-            <div class="glass chart-card">
-                <h3>Downloads Share</h3>
-                <div class="chart-container">
-                    <canvas id="downloadsDonut"></canvas>
-                </div>
-            </div>
-        </div>
 
-        <div class="bottom-row">
-            <div class="glass chart-card">
-                <h3>Top 5 by Downloads</h3>
-                <div class="model-list">
-                    <div class="model-item">
-                        <div class="model-rank">1</div>
-                        <div class="model-info">
-                            <div class="model-name">STAYZOO STAY Angel NFC Keychain</div>
-                            <div class="model-stats">1,155 views • 9 likes</div>
-                        </div>
-                        <div class="model-downloads">36</div>
+            <div class="charts-row">
+                <div class="glass chart-card">
+                    <h3>Top 10 Models by Views</h3>
+                    <div class="chart-container">
+                        <canvas id="viewsChart"></canvas>
                     </div>
-                    <div class="model-item">
-                        <div class="model-rank">2</div>
-                        <div class="model-info">
-                            <div class="model-name">SKZOO Interchangeable Headband</div>
-                            <div class="model-stats">436 views • 9 likes</div>
-                        </div>
-                        <div class="model-downloads">14</div>
-                    </div>
-                    <div class="model-item">
-                        <div class="model-rank">3</div>
-                        <div class="model-info">
-                            <div class="model-name">TWICE Lightstick Stand</div>
-                            <div class="model-stats">456 views • 3 likes</div>
-                        </div>
-                        <div class="model-downloads">9</div>
-                    </div>
-                    <div class="model-item">
-                        <div class="model-rank">4</div>
-                        <div class="model-info">
-                            <div class="model-name">Stray Kids Wool Spinner</div>
-                            <div class="model-stats">623 views • 8 likes</div>
-                        </div>
-                        <div class="model-downloads">9</div>
-                    </div>
-                    <div class="model-item">
-                        <div class="model-rank">5</div>
-                        <div class="model-info">
-                            <div class="model-name">BbokAri Fried Chicken Stand</div>
-                            <div class="model-stats">346 views • 8 likes</div>
-                        </div>
-                        <div class="model-downloads">8</div>
+                </div>
+                <div class="glass chart-card">
+                    <h3>Downloads Share</h3>
+                    <div class="chart-container">
+                        <canvas id="downloadsDonut"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="glass chart-card">
-                <h3>Models by Group</h3>
-                <div class="brand-grid">
-                    <div class="brand-chip"><span>Stray Kids / SKZOO</span><span class="brand-count">14</span></div>
-                    <div class="brand-chip"><span>BTS / BT21</span><span class="brand-count">3</span></div>
-                    <div class="brand-chip"><span>TWICE</span><span class="brand-count">1</span></div>
-                    <div class="brand-chip"><span>ATEEZ</span><span class="brand-count">1</span></div>
-                    <div class="brand-chip"><span>NewJeans</span><span class="brand-count">1</span></div>
-                    <div class="brand-chip"><span>ITZY</span><span class="brand-count">1</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Members Tab -->
-    <div id="members-tab" class="tab-content">
-        <div class="members-grid">
-            <div class="glass stat-card">
-                <div class="stat-label">Active Members</div>
-                <div class="stat-value">45</div>
-            </div>
-            <div class="glass stat-card">
-                <div class="stat-label">Monthly Revenue</div>
-                <div class="stat-value">A$806</div>
-            </div>
-            <div class="glass stat-card">
-                <div class="stat-label">VIP Members</div>
-                <div class="stat-value">6</div>
-            </div>
-            <div class="glass stat-card">
-                <div class="stat-label">Unpaid Earnings</div>
-                <div class="stat-value">A$806</div>
-            </div>
-        </div>
-
-        <div class="members-charts">
-            <div class="glass chart-card">
-                <h3>Members by Plan</h3>
-                <div class="chart-container">
-                    <canvas id="plansChart"></canvas>
+            <div class="bottom-row">
+                <div class="glass chart-card">
+                    <h3>Top 5 by Downloads</h3>
+                    <div class="model-list">
+                        <div class="model-item">
+                            <div class="model-rank">1</div>
+                            <div class="model-info">
+                                <div class="model-name">STAYZOO STAY Angel NFC Keychain</div>
+                                <div class="model-stats">1,155 views • 9 likes</div>
+                            </div>
+                            <div class="model-downloads">36</div>
+                        </div>
+                        <div class="model-item">
+                            <div class="model-rank">2</div>
+                            <div class="model-info">
+                                <div class="model-name">SKZOO Interchangeable Headband</div>
+                                <div class="model-stats">436 views • 9 likes</div>
+                            </div>
+                            <div class="model-downloads">14</div>
+                        </div>
+                        <div class="model-item">
+                            <div class="model-rank">3</div>
+                            <div class="model-info">
+                                <div class="model-name">TWICE Lightstick Stand</div>
+                                <div class="model-stats">456 views • 3 likes</div>
+                            </div>
+                            <div class="model-downloads">9</div>
+                        </div>
+                        <div class="model-item">
+                            <div class="model-rank">4</div>
+                            <div class="model-info">
+                                <div class="model-name">Stray Kids Wool Spinner</div>
+                                <div class="model-stats">623 views • 8 likes</div>
+                            </div>
+                            <div class="model-downloads">9</div>
+                        </div>
+                        <div class="model-item">
+                            <div class="model-rank">5</div>
+                            <div class="model-info">
+                                <div class="model-name">BbokAri Fried Chicken Stand</div>
+                                <div class="model-stats">346 views • 8 likes</div>
+                            </div>
+                            <div class="model-downloads">8</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="glass chart-card">
-                <h3>Revenue by Plan</h3>
-                <div class="chart-container">
-                    <canvas id="revenueChart"></canvas>
+                <div class="glass chart-card">
+                    <h3>Models by Group</h3>
+                    <div class="brand-grid">
+                        <div class="brand-chip"><span>Stray Kids / SKZOO</span><span class="brand-count">14</span></div>
+                        <div class="brand-chip"><span>BTS / BT21</span><span class="brand-count">3</span></div>
+                        <div class="brand-chip"><span>TWICE</span><span class="brand-count">1</span></div>
+                        <div class="brand-chip"><span>ATEEZ</span><span class="brand-count">1</span></div>
+                        <div class="brand-chip"><span>NewJeans</span><span class="brand-count">1</span></div>
+                        <div class="brand-chip"><span>ITZY</span><span class="brand-count">1</span></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="glass chart-card" style="margin-top: 24px;">
-            <h3>All Members</h3>
-            <div class="members-table-wrapper">
-                <table class="members-table">
-                    <thead>
-                        <tr>
-                            <th>Profile</th>
-                            <th>Plan</th>
-                            <th>Price</th>
-                            <th>Subscribed</th>
-                            <th>Status</th>
-                            <th>Est. LTV</th>
-                        </tr>
-                    </thead>
-                    <tbody id="members-tbody"></tbody>
-                </table>
+        <!-- Members Tab -->
+        <div id="members-tab" class="tab-content">
+            <div class="members-grid">
+                <div class="glass stat-card">
+                    <div class="stat-label">Active Members</div>
+                    <div class="stat-value">45</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-label">Monthly Revenue</div>
+                    <div class="stat-value">A$806</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-label">VIP Members</div>
+                    <div class="stat-value">6</div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-label">Unpaid Earnings</div>
+                    <div class="stat-value">A$806</div>
+                </div>
+            </div>
+
+            <div class="members-charts">
+                <div class="glass chart-card">
+                    <h3>Members by Plan</h3>
+                    <div class="chart-container">
+                        <canvas id="plansChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass chart-card">
+                    <h3>Revenue by Plan</h3>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass chart-card" style="margin-top: 24px;">
+                <h3>All Members</h3>
+                <div class="members-table-wrapper">
+                    <table class="members-table">
+                        <thead>
+                            <tr>
+                                <th>Profile</th>
+                                <th>Plan</th>
+                                <th>Price</th>
+                                <th>Subscribed</th>
+                                <th>Status</th>
+                                <th>Est. LTV</th>
+                            </tr>
+                        </thead>
+                        <tbody id="members-tbody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -424,6 +515,29 @@
         const accentColor = '#a855f7';
         const accentDim = 'rgba(168, 85, 247, 0.3)';
         const textMuted = 'rgba(255, 255, 255, 0.5)';
+
+        // Password logic
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            // Simple check (Lolcano89)
+            if (input === 'Lolcano89') {
+                document.getElementById('password-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('password-screen').style.display = 'none';
+                    document.getElementById('dashboard-content').style.display = 'block';
+                    initCharts(); // Initialize charts after showing content
+                }, 500);
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        // Allow 'Enter' key to trigger check
+        document.getElementById('password-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
 
         Chart.defaults.color = textMuted;
         Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)';
@@ -436,106 +550,108 @@
             event.target.classList.add('active');
         }
 
-        // Models Charts
-        new Chart(document.getElementById('viewsChart'), {
-            type: 'bar',
-            data: {
-                labels: ['STAYZOO', 'Wool Spinner', 'TWICE', 'Headband', 'BbokAri', 'Jiniret', 'BTS BT21', 'Han Quokka', 'NewJeans', 'BTS Trans'],
-                datasets: [{
-                    data: [1155, 623, 456, 436, 346, 236, 219, 187, 145, 37],
-                    backgroundColor: accentDim,
-                    hoverBackgroundColor: accentColor,
-                    borderRadius: 4,
-                    borderSkipped: false,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
-                    x: { grid: { display: false }, ticks: { maxRotation: 45, minRotation: 45 } }
+        function initCharts() {
+            // Models Charts
+            new Chart(document.getElementById('viewsChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['STAYZOO', 'Wool Spinner', 'TWICE', 'Headband', 'BbokAri', 'Jiniret', 'BTS BT21', 'Han Quokka', 'NewJeans', 'BTS Trans'],
+                    datasets: [{
+                        data: [1155, 623, 456, 436, 346, 236, 219, 187, 145, 37],
+                        backgroundColor: accentDim,
+                        hoverBackgroundColor: accentColor,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
+                        x: { grid: { display: false }, ticks: { maxRotation: 45, minRotation: 45 } }
+                    }
                 }
-            }
-        });
+            });
 
-        new Chart(document.getElementById('downloadsDonut'), {
-            type: 'doughnut',
-            data: {
-                labels: ['STAYZOO', 'Headband', 'TWICE', 'Wool Spinner', 'BbokAri', 'Others'],
-                datasets: [{
-                    data: [36, 14, 9, 9, 8, 162],
-                    backgroundColor: [
-                        'rgba(168, 85, 247, 1)',
-                        'rgba(168, 85, 247, 0.75)',
-                        'rgba(168, 85, 247, 0.55)',
-                        'rgba(168, 85, 247, 0.4)',
-                        'rgba(168, 85, 247, 0.25)',
-                        'rgba(255, 255, 255, 0.08)'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
-            }
-        });
-
-        // Members Charts
-        new Chart(document.getElementById('plansChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ['General Admission', 'Sound Check', 'VIP Access'],
-                datasets: [{
-                    data: [29, 9, 6],
-                    backgroundColor: [
-                        'rgba(255, 255, 255, 0.15)',
-                        'rgba(168, 85, 247, 0.5)',
-                        'rgba(168, 85, 247, 1)'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
-            }
-        });
-
-        new Chart(document.getElementById('revenueChart'), {
-            type: 'bar',
-            data: {
-                labels: ['General ($10)', 'Sound Check ($20)', 'VIP ($40)'],
-                datasets: [{
-                    data: [290, 179, 239],
-                    backgroundColor: [
-                        'rgba(255, 255, 255, 0.15)',
-                        'rgba(168, 85, 247, 0.5)',
-                        'rgba(168, 85, 247, 1)'
-                    ],
-                    borderRadius: 4,
-                    borderSkipped: false,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
-                    y: { grid: { display: false } }
+            new Chart(document.getElementById('downloadsDonut'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['STAYZOO', 'Headband', 'TWICE', 'Wool Spinner', 'BbokAri', 'Others'],
+                    datasets: [{
+                        data: [36, 14, 9, 9, 8, 162],
+                        backgroundColor: [
+                            'rgba(168, 85, 247, 1)',
+                            'rgba(168, 85, 247, 0.75)',
+                            'rgba(168, 85, 247, 0.55)',
+                            'rgba(168, 85, 247, 0.4)',
+                            'rgba(168, 85, 247, 0.25)',
+                            'rgba(255, 255, 255, 0.08)'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
                 }
-            }
-        });
+            });
+
+            // Members Charts
+            new Chart(document.getElementById('plansChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['General Admission', 'Sound Check', 'VIP Access'],
+                    datasets: [{
+                        data: [29, 9, 6],
+                        backgroundColor: [
+                            'rgba(255, 255, 255, 0.15)',
+                            'rgba(168, 85, 247, 0.5)',
+                            'rgba(168, 85, 247, 1)'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
+                }
+            });
+
+            new Chart(document.getElementById('revenueChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['General ($10)', 'Sound Check ($20)', 'VIP ($40)'],
+                    datasets: [{
+                        data: [290, 179, 239],
+                        backgroundColor: [
+                            'rgba(255, 255, 255, 0.15)',
+                            'rgba(168, 85, 247, 0.5)',
+                            'rgba(168, 85, 247, 1)'
+                        ],
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        }
 
         // Members Table
         const members = [
