@@ -473,75 +473,82 @@
 
         <!-- Etsy Tab -->
         <div id="etsy-tab" class="tab-content">
-            <h2 style="margin-bottom: 24px; font-size: 1.25rem;">📦 ShipStation / Etsy Overview</h2>
-            
             <div class="etsy-grid">
                 <div class="glass stat-card etsy-card">
-                    <div class="stat-label">Pending (Echoes)</div>
-                    <div class="stat-value">0</div>
-                </div>
-                <div class="glass stat-card etsy-card">
-                    <div class="stat-label">Pending (Finery8)</div>
-                    <div class="stat-value">1</div>
-                </div>
-                <div class="glass stat-card etsy-card">
-                    <div class="stat-label">Recent Sales (30d)</div>
+                    <div class="stat-label">Orders (30d)</div>
                     <div class="stat-value">40</div>
                 </div>
                 <div class="glass stat-card etsy-card">
-                    <div class="stat-label">Est. Revenue (30d)</div>
-                    <div class="stat-value">A$3,808</div>
+                    <div class="stat-label">Avg. Order Value</div>
+                    <div class="stat-value">A$63.12</div>
+                </div>
+                <div class="glass stat-card etsy-card">
+                    <div class="stat-label">Net Revenue (30d)</div>
+                    <div class="stat-value">A$2,525</div>
+                </div>
+                <div class="glass stat-card etsy-card">
+                    <div class="stat-label">Primary Market</div>
+                    <div class="stat-value">USA (56%)</div>
                 </div>
             </div>
 
             <div class="charts-row">
                 <div class="glass chart-card">
-                    <h3>Etsy Order Volume (30 Days)</h3>
-                    <div class="chart-container">
-                        <canvas id="etsyOrdersChart"></canvas>
+                    <h3>Top 5 Etsy Products (Echoes)</h3>
+                    <div class="model-list">
+                        <div class="model-item">
+                            <div class="model-rank">1</div>
+                            <div class="model-info">
+                                <div class="model-name">SKZOO OT8 Lightstick Stand</div>
+                                <div class="model-stats">High volume • Multi-item orders</div>
+                            </div>
+                            <div class="model-downloads">24</div>
+                        </div>
+                        <div class="model-item">
+                            <div class="model-rank">2</div>
+                            <div class="model-info">
+                                <div class="model-name">SKZ Jibbitz for Crocs</div>
+                                <div class="model-stats">Low weight • High margin</div>
+                            </div>
+                            <div class="model-downloads">12</div>
+                        </div>
+                        <div class="model-item">
+                            <div class="model-rank">3</div>
+                            <div class="model-info">
+                                <div class="model-name">Leebit SKZOO Lightstick Stand</div>
+                                <div class="model-stats">Consistent single-unit sales</div>
+                            </div>
+                            <div class="model-downloads">12</div>
+                        </div>
+                        <div class="model-item">
+                            <div class="model-rank">4</div>
+                            <div class="model-info">
+                                <div class="model-name">SKZOO Cookie Cutters (Set of 8)</div>
+                                <div class="model-stats">High AOV contributor</div>
+                            </div>
+                            <div class="model-downloads">10</div>
+                        </div>
                     </div>
                 </div>
                 <div class="glass chart-card">
-                    <h3>Store Distribution</h3>
+                    <h3>Geographic Reach</h3>
                     <div class="chart-container">
-                        <canvas id="etsyStoreDonut"></canvas>
+                        <canvas id="etsyGeoChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="glass chart-card" style="margin-top: 24px;">
-                <h3>Store Performance Breakdown</h3>
-                <div class="members-table-wrapper">
-                    <table class="members-table">
-                        <thead>
-                            <tr>
-                                <th>Store Name</th>
-                                <th>Marketplace</th>
-                                <th>Pending Orders</th>
-                                <th>30d Orders</th>
-                                <th>30d Revenue</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Echoes of Idols</td>
-                                <td>Etsy</td>
-                                <td>0</td>
-                                <td>28</td>
-                                <td>A$3,122</td>
-                                <td><span class="status-dot"></span>Active</td>
-                            </tr>
-                            <tr>
-                                <td>Finery8</td>
-                                <td>Etsy</td>
-                                <td>1</td>
-                                <td>12</td>
-                                <td>A$686</td>
-                                <td><span class="status-dot"></span>Active</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="glass chart-card">
+                <h3>Etsy Business Insights (ShipStation Analysis)</h3>
+                <div class="insights-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 16px;">
+                    <div class="idea-item">
+                        <span class="idea-name">📦 Shipping Strategy</span>
+                        <p class="idea-desc">56% of your orders are shipping to the **US**, while 37% are local **AU** orders. The high US volume justifies your current international flat-rate pricing, but look at consolidated shipping for bulk US orders to increase margins.</p>
+                    </div>
+                    <div class="idea-item">
+                        <span class="idea-name">💎 High-Value Product</span>
+                        <p class="idea-desc">The **SKZOO Cookie Cutters** are a strong performer. Since they drive higher transaction values, consider a 'Baking Bundle' listing on Etsy to cross-sell with smaller accessories.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -582,31 +589,6 @@
                     <p class="insight-content">3 members have been active for >4 months. They are entering the high-churn zone. A direct 'Thank You' message or a small exclusive model 'loyalty gift' could secure their next 6 months.</p>
                 </div>
             </div>
-
-            <div class="charts-row">
-                <div class="glass chart-card">
-                    <h3>AI Product Ideas (Gemini 3 Pro)</h3>
-                    <ul class="ideas-list">
-                        <li class="idea-item">
-                            <span class="idea-name">SKZOO "Light-Up" PC Stand</span>
-                            <p class="idea-desc">A Photocard stand featuring integrated slots for LED tea lights or USB strips, themed around the Nachimbong compass. High demand in 'Lights & Lighting' category.</p>
-                        </li>
-                        <li class="idea-item">
-                            <span class="idea-name">Magnetic SKZOO Cable Bites</span>
-                            <p class="idea-desc">Utilize your success with magnetic stands to create character-themed cable organizers. Small, fast to print, perfect for 'Free' lead magnets or bundles.</p>
-                        </li>
-                        <li class="idea-item">
-                            <span class="idea-name">Modular K-Pop "Shelfie" System</span>
-                            <p class="idea-desc">A 'Multiboard' compatible system specifically for albums and lightsticks. Leverage the current Thangs multiboard hype with your unique niche.</p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="glass chart-card">
-                    <h3>Strategic Advice</h3>
-                    <p class="insight-content" style="margin-bottom: 12px;">Your Stray Kids / SKZOO dominance (14 models) is your greatest strength. </p>
-                    <p class="insight-content"><strong>Next Step:</strong> Diversify within the brand. Instead of just stands, look at <em>functional</em> accessories (e.g., desk organizers, headphone hooks) that utilize the SKZOO aesthetic.</p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -639,7 +621,6 @@
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
             document.getElementById(tab + '-tab').classList.add('active');
             
-            // Update active state on button
             document.querySelectorAll('.tab').forEach(btn => {
                 if(btn.innerText.toLowerCase() === tab) btn.classList.add('active');
             });
@@ -684,11 +665,6 @@
                 {profile:"cqggg7mqcn",plan:"Sound Check",price:"$19.90",subscribedFor:"9 days",status:"Active",estLTV:"$19.90"},
                 {profile:"elerihamilton",plan:"General Admission",price:"$10.00",subscribedFor:"10 days",status:"Active",estLTV:"$10.00"},
                 {profile:"aprillynnganster",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
-                {profile:"nickimazon",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
-                {profile:"mimi29693",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
-                {profile:"aspricer",plan:"Sound Check",price:"$19.90",subscribedFor:"12 days",status:"Active",estLTV:"$19.90"},
-                {profile:"jemeek.27",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
-                {profile:"amyologist510",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
             ];
             const tbody = document.getElementById('members-tbody');
             tbody.innerHTML = members.map(m => {
@@ -710,7 +686,6 @@
             Chart.defaults.color = textMuted;
             Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)';
 
-            // Views Chart
             new Chart(document.getElementById('viewsChart'), {
                 type: 'bar',
                 data: {
@@ -719,41 +694,25 @@
                         data: [1172, 627, 458, 442, 347, 242, 219, 192, 145, 41],
                         backgroundColor: accentDim,
                         hoverBackgroundColor: accentColor,
-                        borderRadius: 4,
-                        borderSkipped: false,
-                    }]
+                        borderRadius: 4, borderSkipped: false,
+                    }],
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
-                        x: { grid: { display: false }, ticks: { maxRotation: 45, minRotation: 45 } }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            // Thangs Downloads Donut
             new Chart(document.getElementById('downloadsDonut'), {
                 type: 'doughnut',
                 data: {
                     labels: ['STAYZOO', 'Headband', 'TWICE', 'Wool Spinner', 'BbokAri', 'Others'],
                     datasets: [{
                         data: [36, 14, 9, 9, 8, 164],
-                        backgroundColor: [
-                            'rgba(168, 85, 247, 1)', 'rgba(168, 85, 247, 0.75)', 'rgba(168, 85, 247, 0.55)',
-                            'rgba(168, 85, 247, 0.4)', 'rgba(168, 85, 247, 0.25)', 'rgba(255, 255, 255, 0.08)'
-                        ],
+                        backgroundColor: ['rgba(168, 85, 247, 1)', 'rgba(168, 85, 247, 0.75)', 'rgba(168, 85, 247, 0.55)', 'rgba(168, 85, 247, 0.4)', 'rgba(168, 85, 247, 0.25)', 'rgba(255, 255, 255, 0.08)'],
                         borderWidth: 0, hoverOffset: 6
                     }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false, cutout: '70%',
-                    plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
             });
 
-            // Thangs Plans Chart
             new Chart(document.getElementById('plansChart'), {
                 type: 'doughnut',
                 data: {
@@ -764,13 +723,9 @@
                         borderWidth: 0, hoverOffset: 6
                     }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false, cutout: '70%',
-                    plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
             });
 
-            // Thangs Revenue Chart
             new Chart(document.getElementById('revenueChart'), {
                 type: 'bar',
                 data: {
@@ -781,56 +736,20 @@
                         borderRadius: 4, borderSkipped: false,
                     }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
-                        y: { grid: { display: false } }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
             });
 
-            // Etsy Orders Chart (Placeholder Trend)
-            new Chart(document.getElementById('etsyOrdersChart'), {
-                type: 'line',
+            new Chart(document.getElementById('etsyGeoChart'), {
+                type: 'polarArea',
                 data: {
-                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    labels: ['USA', 'Australia', 'Canada', 'Others'],
                     datasets: [{
-                        label: 'Orders',
-                        data: [8, 12, 7, 13],
-                        borderColor: etsyColor,
-                        backgroundColor: 'rgba(243, 112, 31, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 2
+                        data: [56, 41, 4, 3],
+                        backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)', 'rgba(243, 112, 31, 0.2)'],
+                        borderWidth: 0
                     }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // Etsy Store Donut
-            new Chart(document.getElementById('etsyStoreDonut'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Echoes of Idols', 'Finery8'],
-                    datasets: [{
-                        data: [28, 12],
-                        backgroundColor: [etsyColor, 'rgba(243, 112, 31, 0.4)'],
-                        borderWidth: 0, hoverOffset: 6
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false, cutout: '70%',
-                    plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { r: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { display: false } } } }
             });
         }
     </script>
