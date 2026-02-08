@@ -493,15 +493,15 @@
                 <div class="etsy-grid">
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Net Revenue (30d)</div>
-                        <div class="stat-value">A$4,867</div>
+                        <div class="stat-value">A$2,451</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Avg. Order Value</div>
                         <div class="stat-value">A$64.59</div>
                     </div>
                     <div class="glass stat-card etsy-card">
-                        <div class="stat-label">Pending Orders</div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-label">Orders (30d)</div>
+                        <div class="stat-value">28</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Top Market</div>
@@ -527,15 +527,15 @@
                 <div class="etsy-grid">
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Net Revenue (30d)</div>
-                        <div class="stat-value">A$4,359</div>
+                        <div class="stat-value">A$443</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Avg. Order Value</div>
                         <div class="stat-value">A$61.66</div>
                     </div>
                     <div class="glass stat-card etsy-card">
-                        <div class="stat-label">Pending Orders</div>
-                        <div class="stat-value">1</div>
+                        <div class="stat-label">Orders (30d)</div>
+                        <div class="stat-value">12</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Top Market</div>
@@ -631,14 +631,9 @@
         }
 
         function showSubTab(parentTab, subtab) {
-            // Hide all sub-tab contents for this parent
             document.querySelectorAll(`#${parentTab}-tab .sub-tab-content`).forEach(el => el.classList.remove('active'));
-            // Deactivate all sub-tab buttons for this parent
             document.querySelectorAll(`#${parentTab}-tab .sub-tab`).forEach(el => el.classList.remove('active'));
-            
-            // Show target sub-tab content
             document.getElementById(`${parentTab}-${subtab}-sub-tab`).classList.add('active');
-            // Activate target sub-tab button
             document.getElementById(`btn-${subtab}`).classList.add('active');
         }
 
@@ -806,18 +801,6 @@
                     }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 7 } } } }
-            });
-
-            new Chart(document.getElementById('echoesGeoChart'), {
-                type: 'polarArea',
-                data: { labels: ['USA', 'Australia', 'Canada'], datasets: [{ data: [50, 41, 4], backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)'], borderWidth: 0 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-            });
-
-            new Chart(document.getElementById('fineryGeoChart'), {
-                type: 'polarArea',
-                data: { labels: ['USA', 'Australia', 'Germany'], datasets: [{ data: [61, 15, 7], backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)'], borderWidth: 0 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
         }
     </script>
