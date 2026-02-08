@@ -17,6 +17,8 @@
             --text-secondary: rgba(255, 255, 255, 0.5);
             --bg-dark: #0a0a0f;
             --bg-card: rgba(255, 255, 255, 0.03);
+            --success: #10b981;
+            --warning: #f59e0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -98,13 +100,8 @@
             transition: transform 0.2s, opacity 0.2s;
         }
 
-        .password-button:hover {
-            opacity: 0.9;
-        }
-
-        .password-button:active {
-            transform: scale(0.98);
-        }
+        .password-button:hover { opacity: 0.9; }
+        .password-button:active { transform: scale(0.98); }
 
         #error-msg {
             color: #ef4444;
@@ -114,9 +111,7 @@
         }
 
         /* Main content hidden initially */
-        #dashboard-content {
-            display: none;
-        }
+        #dashboard-content { display: none; }
 
         .header {
             display: flex;
@@ -176,8 +171,8 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Models Tab */
-        .dashboard-grid {
+        /* Grid Layouts */
+        .dashboard-grid, .members-grid, .insights-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 16px;
@@ -261,24 +256,8 @@
         .brand-count { color: var(--accent); font-weight: 600; }
 
         /* Members Tab */
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .members-table-wrapper {
-            overflow-x: auto;
-            margin-bottom: 24px;
-        }
-
-        .members-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-
+        .members-table-wrapper { overflow-x: auto; margin-bottom: 24px; }
+        .members-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .members-table th {
             text-align: left;
             padding: 12px 16px;
@@ -289,15 +268,8 @@
             letter-spacing: 0.5px;
             border-bottom: 1px solid var(--glass-border);
         }
-
-        .members-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-        }
-
-        .members-table tr:hover td {
-            background: var(--accent-dim);
-        }
+        .members-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .members-table tr:hover td { background: var(--accent-dim); }
 
         .plan-badge {
             display: inline-block;
@@ -306,7 +278,6 @@
             font-size: 0.75rem;
             font-weight: 500;
         }
-
         .plan-badge.general { background: rgba(255,255,255,0.1); }
         .plan-badge.sound { background: var(--accent-dim); color: var(--accent); }
         .plan-badge.vip { background: var(--accent); color: #fff; }
@@ -315,22 +286,47 @@
             display: inline-block;
             width: 8px; height: 8px;
             border-radius: 50%;
-            background: #10b981;
+            background: var(--success);
             margin-right: 6px;
         }
 
-        .members-charts {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+        .members-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        /* Insights Tab Styles */
+        .insight-card { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+        .insight-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .insight-icon { font-size: 1.5rem; }
+        .insight-title { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
+        .insight-content { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; }
+        .insight-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
         }
+        .tag-growth { background: var(--accent-dim); color: var(--accent); }
+        .tag-product { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .tag-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+
+        .ideas-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .idea-item {
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        .idea-name { font-weight: 600; margin-bottom: 4px; display: block; }
+        .idea-desc { font-size: 0.85rem; color: var(--text-secondary); }
 
         @media (max-width: 1200px) {
-            .dashboard-grid, .members-grid { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-grid, .members-grid, .insights-grid { grid-template-columns: repeat(2, 1fr); }
             .charts-row, .bottom-row, .members-charts { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
-            .dashboard-grid, .members-grid { grid-template-columns: 1fr; }
+            .dashboard-grid, .members-grid, .insights-grid { grid-template-columns: 1fr; }
             body { padding: 16px; }
             .header { flex-direction: column; gap: 16px; }
         }
@@ -355,6 +351,7 @@
             <div class="tabs">
                 <button class="tab active" onclick="showTab('models')">Models</button>
                 <button class="tab" onclick="showTab('members')">Members</button>
+                <button class="tab" onclick="showTab('insights')">Insights</button>
             </div>
         </div>
 
@@ -397,48 +394,7 @@
             <div class="bottom-row">
                 <div class="glass chart-card">
                     <h3>Top 5 by Downloads</h3>
-                    <div class="model-list">
-                        <div class="model-item">
-                            <div class="model-rank">1</div>
-                            <div class="model-info">
-                                <div class="model-name">STAYZOO STAY Angel NFC Keychain</div>
-                                <div class="model-stats">1,172 views • 9 likes</div>
-                            </div>
-                            <div class="model-downloads">36</div>
-                        </div>
-                        <div class="model-item">
-                            <div class="model-rank">2</div>
-                            <div class="model-info">
-                                <div class="model-name">SKZOO Interchangeable Headband</div>
-                                <div class="model-stats">442 views • 9 likes</div>
-                            </div>
-                            <div class="model-downloads">14</div>
-                        </div>
-                        <div class="model-item">
-                            <div class="model-rank">3</div>
-                            <div class="model-info">
-                                <div class="model-name">TWICE Lightstick Stand</div>
-                                <div class="model-stats">458 views • 3 likes</div>
-                            </div>
-                            <div class="model-downloads">9</div>
-                        </div>
-                        <div class="model-item">
-                            <div class="model-rank">4</div>
-                            <div class="model-info">
-                                <div class="model-name">Stray Kids Wool Spinner</div>
-                                <div class="model-stats">627 views • 8 likes</div>
-                            </div>
-                            <div class="model-downloads">9</div>
-                        </div>
-                        <div class="model-item">
-                            <div class="model-rank">5</div>
-                            <div class="model-info">
-                                <div class="model-name">BbokAri Fried Chicken Stand</div>
-                                <div class="model-stats">347 views • 8 likes</div>
-                            </div>
-                            <div class="model-downloads">8</div>
-                        </div>
-                    </div>
+                    <div id="top-models-list" class="model-list"></div>
                 </div>
                 <div class="glass chart-card">
                     <h3>Models by Group</h3>
@@ -509,6 +465,69 @@
                 </div>
             </div>
         </div>
+
+        <!-- Insights Tab -->
+        <div id="insights-tab" class="tab-content">
+            <div class="insights-grid">
+                <div class="glass insight-card">
+                    <div class="insight-tag tag-growth">Growth Insight</div>
+                    <div class="insight-header">
+                        <span class="insight-icon">📈</span>
+                        <span class="insight-title">VIP Conversion</span>
+                    </div>
+                    <p class="insight-content">Current VIP tier is at 13% capacity relative to total members. Revenue from VIPs (A$239) is nearly matching General Admission (A$310) despite 5x fewer people. High potential for a 'VIP-Only' limited drop.</p>
+                </div>
+                <div class="glass insight-card">
+                    <div class="insight-tag tag-product">Niche Opportunity</div>
+                    <div class="insight-header">
+                        <span class="insight-icon">🔥</span>
+                        <span class="insight-title">Trend Match</span>
+                    </div>
+                    <p class="insight-content">Thangs trending searches show high demand for 'Glasses case' and 'Multiboard'. A SKZOO-themed multiboard mount or a branded glasses hard-shell could capture this organic traffic.</p>
+                </div>
+                <div class="glass insight-card">
+                    <div class="insight-tag tag-growth">Engagement Tip</div>
+                    <div class="insight-header">
+                        <span class="insight-icon">💬</span>
+                        <span class="insight-title">Membership Perk</span>
+                    </div>
+                    <p class="insight-content">STAYZOO NFC Keychain is your #1 lead magnet. Consider adding a 'Digital Instruction' PDF update for members on how to program the NFC tags for specific K-pop playlists to increase LTV.</p>
+                </div>
+                <div class="glass insight-card">
+                    <div class="insight-tag tag-warning">Churn Warning</div>
+                    <div class="insight-header">
+                        <span class="insight-icon">⚠️</span>
+                        <span class="insight-title">Retention Focus</span>
+                    </div>
+                    <p class="insight-content">3 members have been active for >4 months. They are entering the high-churn zone. A direct 'Thank You' message or a small exclusive model 'loyalty gift' could secure their next 6 months.</p>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="glass chart-card">
+                    <h3>AI Product Ideas (Gemini 3 Pro)</h3>
+                    <ul class="ideas-list">
+                        <li class="idea-item">
+                            <span class="idea-name">SKZOO "Light-Up" PC Stand</span>
+                            <p class="idea-desc">A Photocard stand featuring integrated slots for LED tea lights or USB strips, themed around the Nachimbong compass. High demand in 'Lights & Lighting' category.</p>
+                        </li>
+                        <li class="idea-item">
+                            <span class="idea-name">Magnetic SKZOO Cable Bites</span>
+                            <p class="idea-desc">Utilize your success with magnetic stands to create character-themed cable organizers. Small, fast to print, perfect for 'Free' lead magnets or bundles.</p>
+                        </li>
+                        <li class="idea-item">
+                            <span class="idea-name">Modular K-Pop "Shelfie" System</span>
+                            <p class="idea-desc">A 'Multiboard' compatible system specifically for albums and lightsticks. Leverage the current Thangs multiboard hype with your unique niche.</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass chart-card">
+                    <h3>Strategic Advice</h3>
+                    <p class="insight-content" style="margin-bottom: 12px;">Your Stray Kids / SKZOO dominance (14 models) is your greatest strength. </p>
+                    <p class="insight-content"><strong>Next Step:</strong> Diversify within the brand. Instead of just stands, look at <em>functional</em> accessories (e.g., desk organizers, headphone hooks) that utilize the SKZOO aesthetic.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -516,42 +535,99 @@
         const accentDim = 'rgba(168, 85, 247, 0.3)';
         const textMuted = 'rgba(255, 255, 255, 0.5)';
 
-        // Password logic
         function checkPassword() {
             const input = document.getElementById('password-input').value;
-            // Simple check (Lolcano89)
             if (input === 'Lolcano89') {
                 document.getElementById('password-screen').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('password-screen').style.display = 'none';
                     document.getElementById('dashboard-content').style.display = 'block';
-                    initCharts(); // Initialize charts after showing content
+                    initDashboard();
                 }, 500);
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
         }
 
-        // Allow 'Enter' key to trigger check
         document.getElementById('password-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
+            if (e.key === 'Enter') checkPassword();
         });
 
-        Chart.defaults.color = textMuted;
-        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)';
-
-        // Tab switching
         function showTab(tab) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
             document.getElementById(tab + '-tab').classList.add('active');
-            event.target.classList.add('active');
+            // Update active state on button
+            document.querySelectorAll('.tab').forEach(btn => {
+                if(btn.innerText.toLowerCase() === tab) btn.classList.add('active');
+            });
+        }
+
+        function initDashboard() {
+            renderTopModels();
+            renderMembers();
+            initCharts();
+        }
+
+        function renderTopModels() {
+            const models = [
+                {name:"STAYZOO STAY Angel NFC Keychain", views:1172, likes:9, downloads:36},
+                {name:"SKZOO Interchangeable Headband", views:442, likes:9, downloads:14},
+                {name:"TWICE Lightstick Stand", views:458, likes:3, downloads:9},
+                {name:"Stray Kids Wool Spinner", views:627, likes:8, downloads:9},
+                {name:"BbokAri Fried Chicken Stand", views:347, likes:8, downloads:8}
+            ];
+            const list = document.getElementById('top-models-list');
+            list.innerHTML = models.map((m, i) => `
+                <div class="model-item">
+                    <div class="model-rank">${i+1}</div>
+                    <div class="model-info">
+                        <div class="model-name">${m.name}</div>
+                        <div class="model-stats">${m.views.toLocaleString()} views • ${m.likes} likes</div>
+                    </div>
+                    <div class="model-downloads">${m.downloads}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderMembers() {
+            const members = [
+                {profile:"taravens",plan:"General Admission",price:"$10.00",subscribedFor:"about 19 hours",status:"Active",estLTV:"$10.00"},
+                {profile:"robertormaribel3",plan:"Sound Check",price:"$19.90",subscribedFor:"2 days",status:"Active",estLTV:"$19.90"},
+                {profile:"lordgraf.paola",plan:"VIP Access",price:"$39.90",subscribedFor:"5 days",status:"Active",estLTV:"$39.90"},
+                {profile:"andrearosin13",plan:"VIP Access",price:"$39.90",subscribedFor:"5 days",status:"Active",estLTV:"$39.90"},
+                {profile:"sebalofer",plan:"General Admission",price:"$10.00",subscribedFor:"6 days",status:"Active",estLTV:"$10.00"},
+                {profile:"paulafontaoschiavone",plan:"General Admission",price:"$10.00",subscribedFor:"7 days",status:"Active",estLTV:"$10.00"},
+                {profile:"caeseystewart",plan:"General Admission",price:"$10.00",subscribedFor:"9 days",status:"Active",estLTV:"$10.00"},
+                {profile:"cqggg7mqcn",plan:"Sound Check",price:"$19.90",subscribedFor:"9 days",status:"Active",estLTV:"$19.90"},
+                {profile:"elerihamilton",plan:"General Admission",price:"$10.00",subscribedFor:"10 days",status:"Active",estLTV:"$10.00"},
+                {profile:"aprillynnganster",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
+                {profile:"nickimazon",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
+                {profile:"mimi29693",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
+                {profile:"aspricer",plan:"Sound Check",price:"$19.90",subscribedFor:"12 days",status:"Active",estLTV:"$19.90"},
+                {profile:"jemeek.27",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
+                {profile:"amyologist510",plan:"General Admission",price:"$10.00",subscribedFor:"12 days",status:"Active",estLTV:"$10.00"},
+            ];
+            const tbody = document.getElementById('members-tbody');
+            tbody.innerHTML = members.map(m => {
+                const planClass = m.plan.includes('VIP') ? 'vip' : m.plan.includes('Sound') ? 'sound' : 'general';
+                return `
+                    <tr>
+                        <td>${m.profile}</td>
+                        <td><span class="plan-badge ${planClass}">${m.plan}</span></td>
+                        <td>${m.price}</td>
+                        <td>${m.subscribedFor}</td>
+                        <td><span class="status-dot"></span>${m.status}</td>
+                        <td>${m.estLTV}</td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         function initCharts() {
-            // Models Charts
+            Chart.defaults.color = textMuted;
+            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)';
+
             new Chart(document.getElementById('viewsChart'), {
                 type: 'bar',
                 data: {
@@ -565,8 +641,7 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
                         y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
@@ -582,45 +657,30 @@
                     datasets: [{
                         data: [36, 14, 9, 9, 8, 164],
                         backgroundColor: [
-                            'rgba(168, 85, 247, 1)',
-                            'rgba(168, 85, 247, 0.75)',
-                            'rgba(168, 85, 247, 0.55)',
-                            'rgba(168, 85, 247, 0.4)',
-                            'rgba(168, 85, 247, 0.25)',
-                            'rgba(255, 255, 255, 0.08)'
+                            'rgba(168, 85, 247, 1)', 'rgba(168, 85, 247, 0.75)', 'rgba(168, 85, 247, 0.55)',
+                            'rgba(168, 85, 247, 0.4)', 'rgba(168, 85, 247, 0.25)', 'rgba(255, 255, 255, 0.08)'
                         ],
-                        borderWidth: 0,
-                        hoverOffset: 6
+                        borderWidth: 0, hoverOffset: 6
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
+                    responsive: true, maintainAspectRatio: false, cutout: '70%',
                     plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
                 }
             });
 
-            // Members Charts
             new Chart(document.getElementById('plansChart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['General Admission', 'Sound Check', 'VIP Access'],
                     datasets: [{
                         data: [31, 9, 6],
-                        backgroundColor: [
-                            'rgba(255, 255, 255, 0.15)',
-                            'rgba(168, 85, 247, 0.5)',
-                            'rgba(168, 85, 247, 1)'
-                        ],
-                        borderWidth: 0,
-                        hoverOffset: 6
+                        backgroundColor: ['rgba(255, 255, 255, 0.15)', 'rgba(168, 85, 247, 0.5)', 'rgba(168, 85, 247, 1)'],
+                        borderWidth: 0, hoverOffset: 6
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
+                    responsive: true, maintainAspectRatio: false, cutout: '70%',
                     plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } } }
                 }
             });
@@ -631,19 +691,12 @@
                     labels: ['General ($10)', 'Sound Check ($20)', 'VIP ($40)'],
                     datasets: [{
                         data: [310, 189, 239],
-                        backgroundColor: [
-                            'rgba(255, 255, 255, 0.15)',
-                            'rgba(168, 85, 247, 0.5)',
-                            'rgba(168, 85, 247, 1)'
-                        ],
-                        borderRadius: 4,
-                        borderSkipped: false,
+                        backgroundColor: ['rgba(255, 255, 255, 0.15)', 'rgba(168, 85, 247, 0.5)', 'rgba(168, 85, 247, 1)'],
+                        borderRadius: 4, borderSkipped: false,
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
+                    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' } },
@@ -652,65 +705,6 @@
                 }
             });
         }
-
-        // Members Table
-        const members = [
-            {profile:"paulafontaoschiavone",plan:"General Admission",price:"$10.00",subscribedFor:"about 20 hours",status:"Active",estLTV:"$10.00"},
-            {profile:"caeseystewart",plan:"General Admission",price:"$10.00",subscribedFor:"3 days",status:"Active",estLTV:"$10.00"},
-            {profile:"cqggg7mqcn",plan:"Sound Check",price:"$19.90",subscribedFor:"3 days",status:"Active",estLTV:"$19.90"},
-            {profile:"elerihamilton",plan:"General Admission",price:"$10.00",subscribedFor:"4 days",status:"Active",estLTV:"$10.00"},
-            {profile:"aprillynnganster",plan:"General Admission",price:"$10.00",subscribedFor:"5 days",status:"Active",estLTV:"$10.00"},
-            {profile:"nickimazon",plan:"General Admission",price:"$10.00",subscribedFor:"5 days",status:"Active",estLTV:"$10.00"},
-            {profile:"mimi29693",plan:"General Admission",price:"$10.00",subscribedFor:"6 days",status:"Active",estLTV:"$10.00"},
-            {profile:"aspricer",plan:"Sound Check",price:"$19.90",subscribedFor:"6 days",status:"Active",estLTV:"$19.90"},
-            {profile:"jemeek.27",plan:"General Admission",price:"$10.00",subscribedFor:"6 days",status:"Active",estLTV:"$10.00"},
-            {profile:"amyologist510",plan:"General Admission",price:"$10.00",subscribedFor:"6 days",status:"Active",estLTV:"$10.00"},
-            {profile:"martine.loyer",plan:"General Admission",price:"$10.00",subscribedFor:"6 days",status:"Active",estLTV:"$10.00"},
-            {profile:"bivonam27",plan:"General Admission",price:"$10.00",subscribedFor:"7 days",status:"Active",estLTV:"$10.00"},
-            {profile:"snoonaxx",plan:"General Admission",price:"$10.00",subscribedFor:"7 days",status:"Active",estLTV:"$10.00"},
-            {profile:"snetflix",plan:"General Admission",price:"$10.00",subscribedFor:"8 days",status:"Active",estLTV:"$10.00"},
-            {profile:"valdo.moteuchii",plan:"VIP Access",price:"$39.90",subscribedFor:"8 days",status:"Active",estLTV:"$39.90"},
-            {profile:"adizha.romycrovia",plan:"Sound Check",price:"$19.90",subscribedFor:"8 days",status:"Active",estLTV:"$19.90"},
-            {profile:"tadean2014",plan:"Sound Check",price:"$19.90",subscribedFor:"9 days",status:"Active",estLTV:"$19.90"},
-            {profile:"ashleym81509",plan:"VIP Access",price:"$39.90",subscribedFor:"9 days",status:"Active",estLTV:"$39.90"},
-            {profile:"jonathan.quezada.r0",plan:"VIP Access",price:"$39.90",subscribedFor:"11 days",status:"Active",estLTV:"$39.90"},
-            {profile:"bookishsurey",plan:"General Admission",price:"$10.00",subscribedFor:"11 days",status:"Active",estLTV:"$10.00"},
-            {profile:"Loes",plan:"Sound Check",price:"$143.28",subscribedFor:"12 days",status:"Active",estLTV:"$143.28"},
-            {profile:"ryan.natalie09",plan:"Sound Check",price:"$19.90",subscribedFor:"12 days",status:"Active",estLTV:"$19.90"},
-            {profile:"sara.barentine",plan:"Sound Check",price:"$19.90",subscribedFor:"14 days",status:"Active",estLTV:"$19.90"},
-            {profile:"adizha.romycrovia",plan:"VIP Access",price:"$49.90",subscribedFor:"14 days",status:"Active",estLTV:"$49.90"},
-            {profile:"wegotienda",plan:"Sound Check",price:"$19.90",subscribedFor:"16 days",status:"Active",estLTV:"$19.90"},
-            {profile:"imagin3dprintingllc",plan:"Sound Check",price:"$19.90",subscribedFor:"17 days",status:"Active",estLTV:"$19.90"},
-            {profile:"matthew.ellins",plan:"General Admission",price:"$10.00",subscribedFor:"19 days",status:"Active",estLTV:"$10.00"},
-            {profile:"dazy25",plan:"General Admission",price:"$10.00",subscribedFor:"21 days",status:"Active",estLTV:"$10.00"},
-            {profile:"saraimoreno92",plan:"General Admission",price:"$10.00",subscribedFor:"22 days",status:"Active",estLTV:"$10.00"},
-            {profile:"oksanagrafutko",plan:"General Admission",price:"$10.00",subscribedFor:"22 days",status:"Active",estLTV:"$10.00"},
-            {profile:"loryn.h66",plan:"General Admission",price:"$10.00",subscribedFor:"24 days",status:"Active",estLTV:"$10.00"},
-            {profile:"KayceQ",plan:"General Admission",price:"$10.00",subscribedFor:"24 days",status:"Active",estLTV:"$10.00"},
-            {profile:"krash22cod",plan:"General Admission",price:"$10.00",subscribedFor:"25 days",status:"Active",estLTV:"$10.00"},
-            {profile:"nhoa1980",plan:"General Admission",price:"$10.00",subscribedFor:"25 days",status:"Active",estLTV:"$10.00"},
-            {profile:"T.cola",plan:"General Admission",price:"$10.00",subscribedFor:"about 1 month",status:"Active",estLTV:"$20.00"},
-            {profile:"buggadi1117",plan:"General Admission",price:"$10.00",subscribedFor:"2 months",status:"Active",estLTV:"$20.00"},
-            {profile:"plainjanejones3",plan:"General Admission",price:"$10.00",subscribedFor:"4 months",status:"Active",estLTV:"$40.00"},
-            {profile:"mitziescartin",plan:"General Admission",price:"$10.00",subscribedFor:"4 months",status:"Active",estLTV:"$10.00"},
-            {profile:"gab_ptc",plan:"General Admission",price:"$10.00",subscribedFor:"4 months",status:"Active",estLTV:"$50.00"},
-            {profile:"patriciacpassini",plan:"Sound Check",price:"$19.99",subscribedFor:"5 months",status:"Active",estLTV:"$19.99"},
-        ];
-
-        const tbody = document.getElementById('members-tbody');
-        members.forEach(m => {
-            const planClass = m.plan.includes('VIP') ? 'vip' : m.plan.includes('Sound') ? 'sound' : 'general';
-            tbody.innerHTML += `
-                <tr>
-                    <td>${m.profile}</td>
-                    <td><span class="plan-badge ${planClass}">${m.plan}</span></td>
-                    <td>${m.price}</td>
-                    <td>${m.subscribedFor}</td>
-                    <td><span class="status-dot"></span>${m.status}</td>
-                    <td>${m.estLTV}</td>
-                </tr>
-            `;
-        });
     </script>
 </body>
 </html>
