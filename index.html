@@ -485,16 +485,16 @@
             <div id="echoes-sub-tab" class="sub-tab-content active">
                 <div class="etsy-grid">
                     <div class="glass stat-card etsy-card">
-                        <div class="stat-label">Pending Orders</div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-label">Net Revenue (30d)</div>
+                        <div class="stat-value">A$4,867</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Avg. Order Value</div>
                         <div class="stat-value">A$64.59</div>
                     </div>
                     <div class="glass stat-card etsy-card">
-                        <div class="stat-label">Net Revenue</div>
-                        <div class="stat-value">A$4,867</div>
+                        <div class="stat-label">Pending Orders</div>
+                        <div class="stat-value">0</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Top Market</div>
@@ -503,14 +503,14 @@
                 </div>
                 <div class="charts-row">
                     <div class="glass chart-card">
-                        <h3>Top Echoes Products (by Volume)</h3>
-                        <div id="echoes-products-list" class="model-list"></div>
+                        <h3>Revenue Over Time (30 Days)</h3>
+                        <div class="chart-container">
+                            <canvas id="echoesTimeChart"></canvas>
+                        </div>
                     </div>
                     <div class="glass chart-card">
-                        <h3>Geographic Spread</h3>
-                        <div class="chart-container">
-                            <canvas id="echoesGeoChart"></canvas>
-                        </div>
+                        <h3>Top Echoes Products</h3>
+                        <div id="echoes-products-list" class="model-list"></div>
                     </div>
                 </div>
             </div>
@@ -519,16 +519,16 @@
             <div id="finery8-sub-tab" class="sub-tab-content">
                 <div class="etsy-grid">
                     <div class="glass stat-card etsy-card">
-                        <div class="stat-label">Pending Orders</div>
-                        <div class="stat-value">1</div>
+                        <div class="stat-label">Net Revenue (30d)</div>
+                        <div class="stat-value">A$4,359</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Avg. Order Value</div>
                         <div class="stat-value">A$61.66</div>
                     </div>
                     <div class="glass stat-card etsy-card">
-                        <div class="stat-label">Net Revenue</div>
-                        <div class="stat-value">A$4,359</div>
+                        <div class="stat-label">Pending Orders</div>
+                        <div class="stat-value">1</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Top Market</div>
@@ -537,14 +537,14 @@
                 </div>
                 <div class="charts-row">
                     <div class="glass chart-card">
-                        <h3>Top Finery8 Products (by Volume)</h3>
-                        <div id="finery8-products-list" class="model-list"></div>
+                        <h3>Revenue Over Time (30 Days)</h3>
+                        <div class="chart-container">
+                            <canvas id="fineryTimeChart"></canvas>
+                        </div>
                     </div>
                     <div class="glass chart-card">
-                        <h3>Geographic Spread</h3>
-                        <div class="chart-container">
-                            <canvas id="fineryGeoChart"></canvas>
-                        </div>
+                        <h3>Top Finery8 Products</h3>
+                        <div id="finery8-products-list" class="model-list"></div>
                     </div>
                 </div>
             </div>
@@ -709,6 +709,7 @@
             Chart.defaults.color = textMuted;
             Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)';
 
+            // Models Charts
             new Chart(document.getElementById('viewsChart'), {
                 type: 'bar',
                 data: {
@@ -735,6 +736,7 @@
                 options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
             });
 
+            // Members Charts
             new Chart(document.getElementById('plansChart'), {
                 type: 'doughnut',
                 data: {
@@ -761,30 +763,41 @@
                 options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
             });
 
-            new Chart(document.getElementById('echoesGeoChart'), {
-                type: 'polarArea',
+            // Etsy Time Series Charts
+            const echoesDates = ["2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-17", "2026-01-18", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09"];
+            const echoesValues = [0, 129.62, 0, 39.9, 44.75, 0, 37.22, 74.44, 0, 80.0, 132.22, 0, 134.9, 222.6, 111.3, 0, 0, 750.96, 98.93, 0, 163.62, 0, 304.59, 0, 0, 45.41, 0, 0, 233.91, 0, 0];
+            
+            const fineryDates = ["2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-17", "2026-01-18", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09"];
+            const fineryValues = [0, 0, 103.28, 0, 18.0, 0, 29.9, 0, 34.47, 41.44, 0, 0, 0, 0, 0, 0, 38.88, 48.68, 0, 0, 0, 0, 99.85, 0, 0, 29.9, 0, 34.9, 0, 0, 0];
+
+            new Chart(document.getElementById('echoesTimeChart'), {
+                type: 'line',
                 data: {
-                    labels: ['USA', 'Australia', 'Canada'],
+                    labels: echoesDates,
                     datasets: [{
-                        data: [50, 41, 4],
-                        backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)'],
-                        borderWidth: 0
+                        label: 'Net Revenue (A$)',
+                        data: echoesValues,
+                        borderColor: etsyColor,
+                        backgroundColor: 'rgba(243, 112, 31, 0.1)',
+                        fill: true, tension: 0.3, pointRadius: 2
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 7 } } } }
             });
 
-            new Chart(document.getElementById('fineryGeoChart'), {
-                type: 'polarArea',
+            new Chart(document.getElementById('fineryTimeChart'), {
+                type: 'line',
                 data: {
-                    labels: ['USA', 'Australia', 'Germany'],
+                    labels: fineryDates,
                     datasets: [{
-                        data: [61, 15, 7],
-                        backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)'],
-                        borderWidth: 0
+                        label: 'Net Revenue (A$)',
+                        data: fineryValues,
+                        borderColor: etsyColor,
+                        backgroundColor: 'rgba(243, 112, 31, 0.1)',
+                        fill: true, tension: 0.3, pointRadius: 2
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 7 } } } }
             });
         }
     </script>
