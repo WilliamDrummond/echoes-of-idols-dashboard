@@ -14,6 +14,7 @@
             --accent-dim: rgba(168, 85, 247, 0.15);
             --accent-mid: rgba(168, 85, 247, 0.4);
             --etsy-orange: #F3701F;
+            --cults-blue: #0084FF;
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.5);
             --bg-dark: #0a0a0f;
@@ -176,7 +177,7 @@
         .tab-content.active, .sub-tab-content.active { display: block; }
 
         /* Grid Layouts */
-        .dashboard-grid, .members-grid, .insights-grid, .etsy-grid {
+        .dashboard-grid, .members-grid, .insights-grid, .etsy-grid, .cults-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 16px;
@@ -197,8 +198,9 @@
             color: var(--accent);
         }
 
-        /* Etsy Color Override */
+        /* Color Overrides */
         .etsy-card .stat-value { color: var(--etsy-orange); }
+        .cults-card .stat-value { color: var(--cults-blue); }
 
         .charts-row {
             display: grid;
@@ -329,11 +331,11 @@
         .idea-desc { font-size: 0.85rem; color: var(--text-secondary); }
 
         @media (max-width: 1200px) {
-            .dashboard-grid, .members-grid, .insights-grid, .etsy-grid { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-grid, .members-grid, .insights-grid, .etsy-grid, .cults-grid { grid-template-columns: repeat(2, 1fr); }
             .charts-row, .bottom-row, .members-charts { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
-            .dashboard-grid, .members-grid, .insights-grid, .etsy-grid { grid-template-columns: 1fr; }
+            .dashboard-grid, .members-grid, .insights-grid, .etsy-grid, .cults-grid { grid-template-columns: 1fr; }
             body { padding: 16px; }
             .header { flex-direction: column; gap: 16px; }
         }
@@ -358,6 +360,7 @@
             <div class="tabs">
                 <button class="tab active" onclick="showTab('thangs')">Thangs</button>
                 <button class="tab" onclick="showTab('etsy')">Etsy</button>
+                <button class="tab" onclick="showTab('cults3d')">Cults3D</button>
                 <button class="tab" onclick="showTab('insights')">Insights</button>
             </div>
         </div>
@@ -557,6 +560,40 @@
             </div>
         </div>
 
+        <!-- Cults3D Tab -->
+        <div id="cults3d-tab" class="tab-content">
+            <div class="cults-grid">
+                <div class="glass stat-card cults-card">
+                    <div class="stat-label">Designs</div>
+                    <div class="stat-value">5</div>
+                </div>
+                <div class="glass stat-card cults-card">
+                    <div class="stat-label">Downloads</div>
+                    <div class="stat-value">7</div>
+                </div>
+                <div class="glass stat-card cults-card">
+                    <div class="stat-label">Followers</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="glass stat-card cults-card">
+                    <div class="stat-label">Total Sales</div>
+                    <div class="stat-value">A$153</div>
+                </div>
+            </div>
+
+            <div class="bottom-row">
+                <div class="glass chart-card">
+                    <h3>All Cults3D Designs</h3>
+                    <div id="cults-products-list" class="model-list"></div>
+                </div>
+                <div class="glass chart-card">
+                    <h3>Cults3D Strategy</h3>
+                    <p class="insight-content" style="margin-bottom: 12px;">Your Cults3D presence is focused on premium handbag and lightstick stand models. </p>
+                    <p class="insight-content"><strong>Advice:</strong> Cults3D users often look for high-detail fashion accessories. Consider cross-posting your Thangs 'SKZOO Hoodie Charms' here as a paid model to test the marketplace appetite.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Insights Tab -->
         <div id="insights-tab" class="tab-content">
             <div class="insights-grid">
@@ -599,6 +636,7 @@
     <script>
         const accentColor = '#a855f7';
         const etsyColor = '#F3701F';
+        const cultsColor = '#0084FF';
         const accentDim = 'rgba(168, 85, 247, 0.3)';
         const textMuted = 'rgba(255, 255, 255, 0.5)';
 
@@ -641,6 +679,7 @@
             renderTopModels();
             renderMembers();
             renderEtsyProducts();
+            renderCultsProducts();
             initCharts();
         }
 
@@ -692,6 +731,23 @@
                     <div class="model-rank">${i+1}</div>
                     <div class="model-info"><div class="model-name">${p.name}</div></div>
                     <div class="model-downloads">${p.count}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderCultsProducts() {
+            const cultsModels = [
+                {name:"BbokAri Felix SKZOO Handbag", price:"AU$ 44"},
+                {name:"Leebit SKZOO Handbag", price:"AU$ 44"},
+                {name:"BTS B21 Lightstick Stand", price:"AU$ 20"},
+                {name:"ITZY Lightstick Stand", price:"AU$ 10"},
+                {name:"SKZ Crochet Spool - STL", price:"AU$ 25"}
+            ];
+            document.getElementById('cults-products-list').innerHTML = cultsModels.map((m, i) => `
+                <div class="model-item">
+                    <div class="model-rank">${i+1}</div>
+                    <div class="model-info"><div class="model-name">${m.name}</div></div>
+                    <div class="model-downloads">${m.price}</div>
                 </div>
             `).join('');
         }
@@ -769,38 +825,31 @@
 
             const echoesDates = ["2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-17", "2026-01-18", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09"];
             const echoesValues = [0, 129.62, 0, 39.9, 44.75, 0, 37.22, 74.44, 0, 80.0, 132.22, 0, 134.9, 222.6, 111.3, 0, 0, 750.96, 98.93, 0, 163.62, 0, 304.59, 0, 0, 45.41, 0, 0, 233.91, 0, 0];
-            
-            const fineryDates = ["2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-17", "2026-01-18", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09"];
+            const fineryDates = echoesDates;
             const fineryValues = [0, 0, 103.28, 0, 18.0, 0, 29.9, 0, 34.47, 41.44, 0, 0, 0, 0, 0, 0, 38.88, 48.68, 0, 0, 0, 0, 99.85, 0, 0, 29.9, 0, 34.9, 0, 0, 0];
 
             new Chart(document.getElementById('echoesTimeChart'), {
                 type: 'line',
-                data: {
-                    labels: echoesDates,
-                    datasets: [{
-                        label: 'Net Revenue (A$)',
-                        data: echoesValues,
-                        borderColor: etsyColor,
-                        backgroundColor: 'rgba(243, 112, 31, 0.1)',
-                        fill: true, tension: 0.3, pointRadius: 2
-                    }]
-                },
+                data: { labels: echoesDates, datasets: [{ label: 'Net Revenue (A$)', data: echoesValues, borderColor: etsyColor, backgroundColor: 'rgba(243, 112, 31, 0.1)', fill: true, tension: 0.3, pointRadius: 2 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 7 } } } }
             });
 
             new Chart(document.getElementById('fineryTimeChart'), {
                 type: 'line',
-                data: {
-                    labels: fineryDates,
-                    datasets: [{
-                        label: 'Net Revenue (A$)',
-                        data: fineryValues,
-                        borderColor: etsyColor,
-                        backgroundColor: 'rgba(243, 112, 31, 0.1)',
-                        fill: true, tension: 0.3, pointRadius: 2
-                    }]
-                },
+                data: { labels: fineryDates, datasets: [{ label: 'Net Revenue (A$)', data: fineryValues, borderColor: etsyColor, backgroundColor: 'rgba(243, 112, 31, 0.1)', fill: true, tension: 0.3, pointRadius: 2 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 7 } } } }
+            });
+
+            new Chart(document.getElementById('echoesGeoChart'), {
+                type: 'polarArea',
+                data: { labels: ['USA', 'Australia', 'Canada'], datasets: [{ data: [50, 41, 4], backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+
+            new Chart(document.getElementById('fineryGeoChart'), {
+                type: 'polarArea',
+                data: { labels: ['USA', 'Australia', 'Germany'], datasets: [{ data: [61, 15, 7], backgroundColor: ['rgba(243, 112, 31, 0.8)', 'rgba(243, 112, 31, 0.6)', 'rgba(243, 112, 31, 0.4)'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
         }
     </script>
