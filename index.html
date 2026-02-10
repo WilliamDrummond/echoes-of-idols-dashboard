@@ -355,7 +355,7 @@
         <div class="header">
             <div>
                 <h1>Echoes of Idols</h1>
-                <p class="subtitle">Mission Control • Feb 9, 2026</p>
+                <p class="subtitle">Mission Control • Feb 10, 2026</p>
             </div>
             <div class="tabs">
                 <button class="tab active" onclick="showTab('thangs')">Thangs</button>
@@ -377,11 +377,11 @@
                 <div class="dashboard-grid">
                     <div class="glass stat-card">
                         <div class="stat-label">Total Views</div>
-                        <div class="stat-value">8,500</div>
+                        <div class="stat-value">8.7K</div>
                     </div>
                     <div class="glass stat-card">
                         <div class="stat-label">Downloads</div>
-                        <div class="stat-value">240</div>
+                        <div class="stat-value">243</div>
                     </div>
                     <div class="glass stat-card">
                         <div class="stat-label">Likes</div>
@@ -432,11 +432,11 @@
                 <div class="members-grid">
                     <div class="glass stat-card">
                         <div class="stat-label">Active Members</div>
-                        <div class="stat-value">46</div>
+                        <div class="stat-value">50</div>
                     </div>
                     <div class="glass stat-card">
                         <div class="stat-label">Monthly Revenue</div>
-                        <div class="stat-value">A$838</div>
+                        <div class="stat-value">A$877</div>
                     </div>
                     <div class="glass stat-card">
                         <div class="stat-label">VIP Members</div>
@@ -444,7 +444,7 @@
                     </div>
                     <div class="glass stat-card">
                         <div class="stat-label">Unpaid Earnings</div>
-                        <div class="stat-value">A$838</div>
+                        <div class="stat-value">A$877.39</div>
                     </div>
                 </div>
 
@@ -496,15 +496,15 @@
                 <div class="etsy-grid">
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Net Revenue (30d)</div>
-                        <div class="stat-value">A$2,451</div>
+                        <div class="stat-value">A$3,352</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Avg. Order Value</div>
-                        <div class="stat-value">A$64.59</div>
+                        <div class="stat-value">A$108.13</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Orders (30d)</div>
-                        <div class="stat-value">28</div>
+                        <div class="stat-value">31</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Top Market</div>
@@ -530,11 +530,11 @@
                 <div class="etsy-grid">
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Net Revenue (30d)</div>
-                        <div class="stat-value">A$443</div>
+                        <div class="stat-value">A$705</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Avg. Order Value</div>
-                        <div class="stat-value">A$61.66</div>
+                        <div class="stat-value">A$58.78</div>
                     </div>
                     <div class="glass stat-card etsy-card">
                         <div class="stat-label">Orders (30d)</div>
@@ -703,13 +703,7 @@
         }
 
         function renderTopModels() {
-            const models = [
-                {name:"STAYZOO STAY Angel NFC Keychain", views:1172, likes:9, downloads:36},
-                {name:"SKZOO Interchangeable Headband", views:442, likes:9, downloads:14},
-                {name:"TWICE Lightstick Stand", views:458, likes:3, downloads:9},
-                {name:"Stray Kids Wool Spinner", views:627, likes:8, downloads:9},
-                {name:"BbokAri Fried Chicken Stand", views:347, likes:8, downloads:8}
-            ];
+            const models = [{"name": "Evil Skzoo Hoodie Charms", "views": 1488, "likes": 21, "downloads": 32}, {"name": "STAYZOO STAY Angel", "views": 1203, "likes": 9, "downloads": 38}, {"name": "Wolf Chan SKZOO Handbag", "views": 945, "likes": 16, "downloads": 19}, {"name": "Stray Kids Wool Spinner", "views": 634, "likes": 8, "downloads": 9}, {"name": "BbokAri SKZOO Handbag", "views": 584, "likes": 12, "downloads": 15}];
             const list = document.getElementById('top-models-list');
             list.innerHTML = models.map((m, i) => `
                 <div class="model-item">
@@ -724,18 +718,8 @@
         }
 
         function renderEtsyProducts() {
-            const echoes = [
-                {name:"SKZOO OT8 Lightstick Stand", count:24},
-                {name:"SKZ Jibbitz for Crocs", count:12},
-                {name:"Leebit SKZOO Lightstick Stand", count:12},
-                {name:"SKZOO Cookie Cutters Set of 8", count:10}
-            ];
-            const finery = [
-                {name:"STAY Heart Tag Necklace", count:57},
-                {name:"Stray Kids SKZ Necklace", count:32},
-                {name:"Nachim Bracelet", count:9},
-                {name:"Nachim Bracelet [Preorder]", count:8}
-            ];
+            const echoes = [{"name": "ATEEZ Atiny lightstick Stand", "count": 11}, {"name": "SKZOO Handbag Popcorn Bucket", "count": 9}, {"name": "Stray Kids SKZOO OT8 lightstick Stand", "count": 7}, {"name": "Leebit Handbag Popcorn Bucket", "count": 2}];
+            const finery = [{"name": "STAY heart tag Necklace", "count": 5}, {"name": "Stray Kids SKZ Necklace", "count": 4}, {"name": "ATINY Ateez heart tag Necklace", "count": 2}, {"name": "SKZOO Trinket Tray", "count": 2}];
             
             document.getElementById('echoes-products-list').innerHTML = echoes.map((p, i) => `
                 <div class="model-item">
