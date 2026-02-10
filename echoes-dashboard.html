@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of Idols Dashboard</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #a855f7;
+            --accent-dim: rgba(168, 85, 247, 0.15);
+            --accent-mid: rgba(168, 85, 247, 0.4);
+            --etsy-orange: #F3701F;
+            --cults-blue: #0084FF;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.5);
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            padding: 32px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+            top: -200px; right: -200px;
+            pointer-events: none;
+        }
+
+        /* Password protection styles */
+        #password-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .password-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .password-container h2 {
+            margin-bottom: 24px;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .password-input:focus { border-color: var(--accent); }
+
+        .password-button {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .password-button:hover { opacity: 0.9; }
+        .password-button:active { transform: scale(0.98); }
+
+        #error-msg {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Main content hidden initially */
+        #dashboard-content { display: none; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .tabs, .sub-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--glass-bg);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tab, .sub-tab {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .tab:hover, .sub-tab:hover { color: var(--text-primary); }
+        .tab.active, .sub-tab.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .sub-tabs {
+            margin-bottom: 24px;
+            display: inline-flex;
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+        }
+
+        .tab-content, .sub-tab-content { display: none; }
+        .tab-content.active, .sub-tab-content.active { display: block; }
+
+        /* Grid Layouts */
+        .dashboard-grid, .members-grid, .insights-grid, .etsy-grid, .cults-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card { padding: 20px 24px; }
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Color Overrides */
+        .etsy-card .stat-value { color: var(--etsy-orange); }
+        .cults-card .stat-value { color: var(--cults-blue); }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .chart-card { padding: 24px; }
+        .chart-card h3 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+        .chart-container { position: relative; height: 280px; }
+
+        .model-list { display: flex; flex-direction: column; gap: 8px; }
+        .model-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+        .model-item:hover { background: var(--accent-dim); }
+        .model-rank {
+            width: 24px; height: 24px;
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 0.75rem;
+            background: var(--accent-dim);
+            color: var(--accent);
+        }
+        .model-info { flex: 1; min-width: 0; }
+        .model-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .model-stats { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
+        .model-downloads { font-weight: 600; color: var(--accent); font-size: 0.875rem; }
+
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .brand-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .brand-chip {
+            padding: 8px 14px;
+            background: var(--bg-card);
+            border-radius: 6px;
+            display: flex; gap: 8px; align-items: center;
+            font-size: 0.8rem;
+        }
+        .brand-count { color: var(--accent); font-weight: 600; }
+
+        /* Tables */
+        .members-table-wrapper { overflow-x: auto; margin-bottom: 24px; }
+        .members-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .members-table th {
+            text-align: left;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .members-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .members-table tr:hover td { background: var(--accent-dim); }
+
+        .plan-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .plan-badge.general { background: rgba(255,255,255,0.1); }
+        .plan-badge.sound { background: var(--accent-dim); color: var(--accent); }
+        .plan-badge.vip { background: var(--accent); color: #fff; }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            margin-right: 6px;
+        }
+
+        .members-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        /* Insights Tab Styles */
+        .insight-card { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+        .insight-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .insight-icon { font-size: 1.5rem; }
+        .insight-title { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
+        .insight-content { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; }
+        .insight-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .tag-growth { background: var(--accent-dim); color: var(--accent); }
+        .tag-product { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .tag-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+
+        .ideas-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .idea-item {
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        .idea-name { font-weight: 600; margin-bottom: 4px; display: block; }
+        .idea-desc { font-size: 0.85rem; color: var(--text-secondary); }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid, .members-grid, .insights-grid, .etsy-grid, .cults-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-row, .bottom-row, .members-charts { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .dashboard-grid, .members-grid, .insights-grid, .etsy-grid, .cults-grid { grid-template-columns: 1fr; }
+            body { padding: 16px; }
+            .header { flex-direction: column; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="password-screen">
+        <div class="password-container">
+            <h2>Echoes Mission Control</h2>
+            <input type="password" id="password-input" class="password-input" placeholder="Enter password" autofocus>
+            <button onclick="checkPassword()" class="password-button">Unlock Dashboard</button>
+            <p id="error-msg">Incorrect password.</p>
+        </div>
+    </div>
+
+    <div id="dashboard-content">
+        <div class="header">
+            <div>
+                <h1>Echoes of Idols</h1>
+                <p class="subtitle">Mission Control • Feb 11, 2026</p>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('thangs')">Thangs</button>
+                <button class="tab" onclick="showTab('etsy')">Etsy</button>
+                <button class="tab" onclick="showTab('cults3d')">Cults3D</button>
+                <button class="tab" onclick="showTab('insights')">Insights</button>
+            </div>
+        </div>
+
+        <!-- Thangs Tab -->
+        <div id="thangs-tab" class="tab-content active">
+            <div class="sub-tabs">
+                <button class="sub-tab active" id="btn-models" onclick="showSubTab('thangs', 'models')">Models</button>
+                <button class="sub-tab" id="btn-members" onclick="showSubTab('thangs', 'members')">Members</button>
+            </div>
+
+            <!-- Models Sub-Tab -->
+            <div id="thangs-models-sub-tab" class="sub-tab-content active">
+                <div class="dashboard-grid">
+                    <div class="glass stat-card">
+                        <div class="stat-label">Total Views</div>
+                        <div class="stat-value">8.7K</div>
+                    </div>
+                    <div class="glass stat-card">
+                        <div class="stat-label">Downloads</div>
+                        <div class="stat-value">243</div>
+                    </div>
+                    <div class="glass stat-card">
+                        <div class="stat-label">Likes</div>
+                        <div class="stat-value">152</div>
+                    </div>
+                    <div class="glass stat-card">
+                        <div class="stat-label">Models</div>
+                        <div class="stat-value">22</div>
+                    </div>
+                </div>
+
+                <div class="charts-row">
+                    <div class="glass chart-card">
+                        <h3>Top 10 Models by Views</h3>
+                        <div class="chart-container">
+                            <canvas id="viewsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass chart-card">
+                        <h3>Downloads Share</h3>
+                        <div class="chart-container">
+                            <canvas id="downloadsDonut"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-row">
+                    <div class="glass chart-card">
+                        <h3>Top 5 by Downloads</h3>
+                        <div id="top-models-list" class="model-list"></div>
+                    </div>
+                    <div class="glass chart-card">
+                        <h3>Models by Group</h3>
+                        <div class="brand-grid">
+                            <div class="brand-chip"><span>Stray Kids / SKZOO</span><span class="brand-count">14</span></div>
+                            <div class="brand-chip"><span>BTS / BT21</span><span class="brand-count">3</span></div>
+                            <div class="brand-chip"><span>TWICE</span><span class="brand-count">1</span></div>
+                            <div class="brand-chip"><span>ATEEZ</span><span class="brand-count">1</span></div>
+                            <div class="brand-chip"><span>NewJeans</span><span class="brand-count">1</span></div>
+                            <div class="brand-chip"><span>ITZY</span><span class="brand-count">1</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Sub-Tab -->
+            <div id="thangs-members-sub-tab" class="sub-tab-content">
+                <div class="members-grid">
+                    <div class="glass stat-card">
+                        <div class="stat-label">Active Members</div>
+                        <div class="stat-value">46</div>
+                    </div>
+                    <div class="glass stat-card">
+                        <div class="stat-label">Monthly Revenue</div>
+                        <div class="stat-value">A$877</div>
+                    </div>
+                    <div class="glass stat-card">
+                        <div class="stat-label">VIP Members</div>
+                        <div class="stat-value">4</div>
+                    </div>
+                    <div class="glass stat-card">
+                        <div class="stat-label">Unpaid Earnings</div>
+                        <div class="stat-value">A$877.39</div>
+                    </div>
+                </div>
+
+                <div class="members-charts">
+                    <div class="glass chart-card">
+                        <h3>Members by Plan</h3>
+                        <div class="chart-container">
+                            <canvas id="plansChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass chart-card">
+                        <h3>Revenue by Plan</h3>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass chart-card" style="margin-top: 24px;">
+                    <h3>All Members</h3>
+                    <div class="members-table-wrapper">
+                        <table class="members-table">
+                            <thead>
+                                <tr>
+                                    <th>Profile</th>
+                                    <th>Plan</th>
+                                    <th>Price</th>
+                                    <th>Subscribed</th>
+                                    <th>Status</th>
+                                    <th>Est. LTV</th>
+                                </tr>
+                            </thead>
+                            <tbody id="members-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Etsy Tab -->
+        <div id="etsy-tab" class="tab-content">
+            <div class="sub-tabs">
+                <button class="sub-tab active" id="btn-echoes" onclick="showSubTab('etsy', 'echoes')">Echoes of Idols</button>
+                <button class="sub-tab" id="btn-finery8" onclick="showSubTab('etsy', 'finery8')">Finery8 (Jess)</button>
+            </div>
+
+            <!-- Echoes Sub-Tab -->
+            <div id="etsy-echoes-sub-tab" class="sub-tab-content active">
+                <div class="etsy-grid">
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Net Revenue (30d)</div>
+                        <div class="stat-value">A$3,056.80</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Awaiting Shipment</div>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Orders (30d)</div>
+                        <div class="stat-value">29</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Avg. Order Value</div>
+                        <div class="stat-value">A$108.13</div>
+                    </div>
+                </div>
+                <div class="charts-row">
+                    <div class="glass chart-card">
+                        <h3>Revenue Over Time (30 Days)</h3>
+                        <div class="chart-container">
+                            <canvas id="echoesTimeChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass chart-card">
+                        <h3>Top Echoes Products</h3>
+                        <div id="echoes-products-list" class="model-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finery8 Sub-Tab -->
+            <div id="etsy-finery8-sub-tab" class="sub-tab-content">
+                <div class="etsy-grid">
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Net Revenue (30d)</div>
+                        <div class="stat-value">A$705.39</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Awaiting Shipment</div>
+                        <div class="stat-value">2</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Orders (30d)</div>
+                        <div class="stat-value">12</div>
+                    </div>
+                    <div class="glass stat-card etsy-card">
+                        <div class="stat-label">Avg. Order Value</div>
+                        <div class="stat-value">A$58.78</div>
+                    </div>
+                </div>
+                <div class="charts-row">
+                    <div class="glass chart-card">
+                        <h3>Revenue Over Time (30 Days)</h3>
+                        <div class="chart-container">
+                            <canvas id="fineryTimeChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass chart-card">
+                        <h3>Top Finery8 Products</h3>
+                        <div id="finery8-products-list" class="model-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cults3D Tab -->
+        <div id="cults3d-tab" class="tab-content">
+            <div class="cults-grid">
+                <div class="glass stat-card cults-card">
+                    <div class="stat-label">Total Downloads</div>
+                    <div class="stat-value">7</div>
+                </div>
+                <div class="glass stat-card cults-card">
+                    <div class="stat-label">Total Sales Revenue</div>
+                    <div class="stat-value">AU$ 153.40</div>
+                </div>
+                <div class="glass stat-card cults-card">
+                    <div class="stat-label">Designs</div>
+                    <div class="stat-value">5</div>
+                </div>
+                <div class="glass stat-card cults-card">
+                    <div class="stat-label">Followers</div>
+                    <div class="stat-value">3</div>
+                </div>
+            </div>
+
+            <div class="bottom-row" style="margin-top: 24px; grid-template-columns: 1fr 1fr;">
+                <div class="glass chart-card">
+                    <h3>All Cults3D Designs</h3>
+                    <div id="cults-products-list" class="model-list"></div>
+                </div>
+                <div class="glass chart-card">
+                    <h3>Cults3D Advice</h3>
+                    <p class="insight-content">Your handbags (BbokAri and Leebit) are listed at AU$ 44. Total revenue from 7 downloads is AU$ 153.40, indicating high-value success. Continue leveraging Thangs for memberships and Cults for premium individual model sales.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights Tab -->
+        <div id="insights-tab" class="tab-content">
+            <div class="insights-grid">
+                <div class="glass insight-card">
+                    <div class="insight-tag tag-growth">Growth Insight</div>
+                    <div class="insight-header">
+                        <span class="insight-icon">📈</span>
+                        <span class="insight-title">VIP Conversion</span>
+                    </div>
+                    <p class="insight-content">Current VIP tier is at 13% capacity relative to total members. Revenue from VIPs (A$239) is nearly matching General Admission (A$310) despite 5x fewer people. High potential for a 'VIP-Only' limited drop.</p>
+                </div>
+                <div class="glass insight-card">
+                    <div class="insight-tag tag-product">Niche Opportunity</div>
+                    <div class="insight-header">
+                        <span class="insight-icon">🔥</span>
+                        <span class="insight-title">Trend Match</span>
+                    </div>
+                    <p class="insight-content">Thangs trending searches show high demand for 'gridfinity' and 'Multiboard'. A SKZOO-themed multiboard mount or a gridfinity lightstick organizer could capture this organic traffic.</p>
+                </div>
+                <div class="glass insight-card">
+                    <div class="insight-tag tag-growth">Engagement Tip</div>
+                    <div class="insight-header">
+                        <span class="insight-icon">💬</span>
+                        <span class="insight-title">Membership Perk</span>
+                    </div>
+                    <p class="insight-content">STAYZOO NFC Keychain is your #1 lead magnet. Consider adding a 'Digital Instruction' PDF update for members on how to program the NFC tags for specific K-pop playlists to increase LTV.</p>
+                </div>
+                <div class="glass insight-card">
+                    <div class="insight-tag tag-warning">Retention Tip</div>
+                    <div class="insight-header">
+                        <span class="insight-icon">⚠️</span>
+                        <span class="insight-title">Activity Pulse</span>
+                    </div>
+                    <p class="insight-content">Total plan purchases reached 46 this week (+4.5%). New models like the BTS Magnetic Transforming Stand are maintaining engagement. Target a follow-up model for the SKZOO SKZOO Handbag series to leverage recent downloads.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const accentColor = '#a855f7';
+        const etsyColor = '#F3701F';
+        const cultsColor = '#0084FF';
+        const accentDim = 'rgba(168, 85, 247, 0.3)';
+        const textMuted = 'rgba(255, 255, 255, 0.5)';
+
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            if (input === 'Lolcano89') {
+                document.getElementById('password-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('password-screen').style.display = 'none';
+                    document.getElementById('dashboard-content').style.display = 'block';
+                    initDashboard();
+                }, 500);
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        document.getElementById('password-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab + '-tab').classList.add('active');
+            
+            document.querySelectorAll('.tab').forEach(btn => {
+                if(btn.innerText.toLowerCase().includes(tab)) btn.classList.add('active');
+            });
+        }
+
+        function showSubTab(parentTab, subtab) {
+            document.querySelectorAll(`#${parentTab}-tab .sub-tab-content`).forEach(el => el.classList.remove('active'));
+            document.querySelectorAll(`#${parentTab}-tab .sub-tab`).forEach(el => el.classList.remove('active'));
+            document.getElementById(`${parentTab}-${subtab}-sub-tab`).classList.add('active');
+            document.getElementById(`btn-${subtab}`).classList.add('active');
+        }
+
+        function initDashboard() {
+            renderTopModels();
+            renderMembers();
+            renderEtsyProducts();
+            renderCultsProducts();
+            initCharts();
+        }
+
+        function renderTopModels() {
+            const models = [{"name": "STAYZOO STAY Angel", "views": 1203, "likes": 9, "downloads": 38}, {"name": "Evil Skzoo Hoodie Charms", "views": 1488, "likes": 21, "downloads": 32}, {"name": "SKZOO Interchangeable Headband", "views": 448, "likes": 9, "downloads": 14}, {"name": "Stray Kids Wool Spinner", "views": 634, "likes": 8, "downloads": 9}, {"name": "TWICE Lightstick Stand", "views": 463, "likes": 3, "downloads": 9}];
+            const list = document.getElementById('top-models-list');
+            list.innerHTML = models.map((m, i) => `
+                <div class="model-item">
+                    <div class="model-rank">${i+1}</div>
+                    <div class="model-info">
+                        <div class="model-name">${m.name}</div>
+                        <div class="model-stats">${m.views.toLocaleString()} views • ${m.likes} likes</div>
+                    </div>
+                    <div class="model-downloads">${m.downloads}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderEtsyProducts() {
+            const echoes = [{"name": "ATEEZ Atiny Stand", "count": 11}, {"name": "SKZOO Handbag Bucket", "count": 9}, {"name": "SKZOO OT8 Stand", "count": 7}, {"name": "Crochet Spool Spinner", "count": 2}];
+            const finery = [{"name": "STAY heart tag Necklace", "count": 5}, {"name": "Stray Kids SKZ Necklace", "count": 4}, {"name": "ATINY heart tag Necklace", "count": 2}, {"name": "SKZOO Trinket Tray", "count": 2}];
+            
+            document.getElementById('echoes-products-list').innerHTML = echoes.map((p, i) => `
+                <div class="model-item">
+                    <div class="model-rank">${i+1}</div>
+                    <div class="model-info"><div class="model-name">${p.name}</div></div>
+                    <div class="model-downloads">${p.count}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('finery8-products-list').innerHTML = finery.map((p, i) => `
+                <div class="model-item">
+                    <div class="model-rank">${i+1}</div>
+                    <div class="model-info"><div class="model-name">${p.name}</div></div>
+                    <div class="model-downloads">${p.count}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderCultsProducts() {
+            const cultsModels = [
+                {name:"BbokAri SKZOO Handbag", price:"AU$ 44"},
+                {name:"Leebit SKZOO Handbag", price:"AU$ 44"},
+                {name:"BTS B21 Lightstick Stand", price:"AU$ 20"},
+                {name:"ITZY Lightstick Stand", price:"AU$ 10"},
+                {name:"SKZ Crochet Spool - STL", price:"AU$ 25"}
+            ];
+            document.getElementById('cults-products-list').innerHTML = cultsModels.map((m, i) => `
+                <div class="model-item">
+                    <div class="model-rank">${i+1}</div>
+                    <div class="model-info"><div class="model-name">${m.name}</div></div>
+                    <div class="model-downloads">${m.price}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderMembers() {
+            const members = [
+                {profile:"taravens",plan:"General Admission",price:"$10.00",subscribedFor:"about 19 hours",status:"Active",estLTV:"$10.00"},
+                {profile:"robertormaribel3",plan:"Sound Check",price:"$19.90",subscribedFor:"2 days",status:"Active",estLTV:"$19.90"},
+                {profile:"lordgraf.paola",plan:"VIP Access",price:"$39.90",subscribedFor:"5 days",status:"Active",estLTV:"$39.90"},
+                {profile:"andrearosin13",plan:"VIP Access",price:"$39.90",subscribedFor:"5 days",status:"Active",estLTV:"$39.90"},
+                {profile:"sebalofer",plan:"General Admission",price:"$10.00",subscribedFor:"6 days",status:"Active",estLTV:"$10.00"},
+            ];
+            const tbody = document.getElementById('members-tbody');
+            tbody.innerHTML = members.map(m => {
+                const planClass = m.plan.includes('VIP') ? 'vip' : m.plan.includes('Sound') ? 'sound' : 'general';
+                return `<tr><td>${m.profile}</td><td><span class="plan-badge ${planClass}">${m.plan}</span></td><td>${m.price}</td><td>${m.subscribedFor}</td><td><span class="status-dot"></span>${m.status}</td><td>${m.estLTV}</td></tr>`;
+            }).join('');
+        }
+
+        function initCharts() {
+            Chart.defaults.color = textMuted;
+            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)';
+
+            new Chart(document.getElementById('viewsChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Evil Skzoo', 'STAYZOO', 'Wolf Chan', 'Leebit', 'Wool Spinner', 'TWICE', 'Headband', 'BbokAri', 'Jiniret', 'BTS BT21'],
+                    datasets: [{
+                        data: [1488, 1203, 945, 714, 634, 463, 448, 348, 248, 223],
+                        backgroundColor: accentDim, hoverBackgroundColor: accentColor,
+                        borderRadius: 4, borderSkipped: false,
+                    }],
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            new Chart(document.getElementById('downloadsDonut'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['STAYZOO', 'Evil Skzoo', 'Wolf Chan', 'Leebit', 'BbokAri', 'Others'],
+                    datasets: [{
+                        data: [38, 32, 17, 14, 12, 130],
+                        backgroundColor: ['rgba(168, 85, 247, 1)', 'rgba(168, 85, 247, 0.75)', 'rgba(168, 85, 247, 0.55)', 'rgba(168, 85, 247, 0.4)', 'rgba(168, 85, 247, 0.25)', 'rgba(255, 255, 255, 0.08)'],
+                        borderWidth: 0, hoverOffset: 6
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
+            });
+
+            new Chart(document.getElementById('plansChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['General Admission', 'Sound Check', 'VIP Access'],
+                    datasets: [{
+                        data: [31, 10, 4],
+                        backgroundColor: ['rgba(255, 255, 255, 0.15)', 'rgba(168, 85, 247, 0.5)', 'rgba(168, 85, 247, 1)'],
+                        borderWidth: 0, hoverOffset: 6
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
+            });
+
+            new Chart(document.getElementById('revenueChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['General ($10)', 'Sound Check ($20)', 'VIP ($40)'],
+                    datasets: [{
+                        data: [310, 189, 239],
+                        backgroundColor: ['rgba(255, 255, 255, 0.15)', 'rgba(168, 85, 247, 0.5)', 'rgba(168, 85, 247, 1)'],
+                        borderRadius: 4, borderSkipped: false,
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
+            });
+
+            const echoesDates = ["2026-01-11", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-17", "2026-01-18", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10"];
+            const echoesValues = [129.62, 0, 39.9, 44.75, 0, 37.22, 74.44, 0, 80.0, 132.22, 0, 134.9, 222.6, 111.3, 0, 0, 750.96, 98.93, 0, 163.62, 0, 304.59, 0, 0, 45.41, 0, 0, 233.91, 0, 0, 0];
+            const fineryDates = echoesDates;
+            const fineryValues = [0, 103.28, 0, 18.0, 0, 29.9, 0, 34.47, 41.44, 0, 0, 0, 0, 0, 0, 38.88, 48.68, 0, 0, 0, 0, 99.85, 0, 0, 29.9, 0, 34.9, 0, 0, 0, 0];
+
+            new Chart(document.getElementById('echoesTimeChart'), {
+                type: 'line',
+                data: { labels: echoesDates, datasets: [{ label: 'Net Revenue (A$)', data: echoesValues, borderColor: etsyColor, backgroundColor: 'rgba(243, 112, 31, 0.1)', fill: true, tension: 0.3, pointRadius: 2 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 7 } } } }
+            });
+
+            new Chart(document.getElementById('fineryTimeChart'), {
+                type: 'line',
+                data: { labels: fineryDates, datasets: [{ label: 'Net Revenue (A$)', data: fineryValues, borderColor: etsyColor, backgroundColor: 'rgba(243, 112, 31, 0.1)', fill: true, tension: 0.3, pointRadius: 2 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 7 } } } }
+            });
+        }
+    </script>
+</body>
+</html>
