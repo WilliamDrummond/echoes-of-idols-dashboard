@@ -258,6 +258,7 @@
         async function loadIdeas() {
             try {
                 const response = await fetch('automation-ideas.json');
+                if (!response.ok) throw new Error('JSON not found');
                 const data = await response.json();
                 
                 // Sort by date (newest first)
@@ -265,34 +266,64 @@
                     .filter(idea => !idea.dismissed)
                     .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
                 
-                const container = document.getElementById('ideas-container');
-                
-                if (sortedIdeas.length === 0) {
-                    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">No automation ideas yet. Check back tomorrow!</div>';
-                    return;
-                }
-                
-                container.innerHTML = sortedIdeas.map(idea => `
-                    <div class="idea-card" data-id="${idea.id}">
-                        <div class="idea-card::before"></div>
-                        <div class="idea-header">
-                            <div class="idea-header-left">
-                                <div class="idea-icon">${idea.icon}</div>
-                                <div class="idea-title">${idea.title}</div>
-                            </div>
-                        </div>
-                        <p class="idea-content">${idea.description}</p>
-                        <div class="idea-footer">
-                            <span class="idea-date">Added: ${new Date(idea.dateAdded).toLocaleDateString()}</span>
-                            <button class="dismiss-btn" onclick="dismissIdea('${idea.id}')">Dismiss</button>
-                        </div>
-                    </div>
-                `).join('');
+                renderIdeas(sortedIdeas);
                 
             } catch (error) {
-                console.error('Failed to load ideas:', error);
-                document.getElementById('ideas-container').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">Error loading ideas. Please refresh.</div>';
+                console.error('Failed to load ideas from JSON, using fallback:', error);
+                // Fallback to embedded ideas
+                const fallbackIdeas = [
+                    {
+                        id: "idea-001",
+                        title: "Multi-Platform Sell-Through",
+                        icon: "📊",
+                        description: "Create a unified view that calculates 'True Sell-Through' by combining views/downloads from Thangs with actual sales on Etsy to verify which designs translate to physical demand.",
+                        dateAdded: "2026-02-10",
+                        dismissed: false
+                    },
+                    {
+                        id: "idea-002",
+                        title: "Customer Sentiment AI",
+                        icon: "💬",
+                        description: "Scrape Etsy reviews and Thangs comments weekly. Use Gemini/Claude to summarize 'Feature Requests' and 'Common Complaints' for product iteration.",
+                        dateAdded: "2026-02-10",
+                        dismissed: false
+                    },
+                    {
+                        id: "idea-003",
+                        title: "Auto-Gallery Update",
+                        icon: "🖼️",
+                        description: "When a new 'Make' is posted on Thangs or a photo review on Etsy, automatically save the image to a 'Social Proof' folder for Instagram reposting.",
+                        dateAdded: "2026-02-10",
+                        dismissed: false
+                    }
+                ];
+                renderIdeas(fallbackIdeas);
             }
+        }
+        
+        function renderIdeas(sortedIdeas) {
+            const container = document.getElementById('ideas-container');
+            
+            if (sortedIdeas.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">No automation ideas yet. Check back tomorrow!</div>';
+                return;
+            }
+            
+            container.innerHTML = sortedIdeas.map(idea => `
+                <div class="idea-card" data-id="${idea.id}">
+                    <div class="idea-header">
+                        <div class="idea-header-left">
+                            <div class="idea-icon">${idea.icon}</div>
+                            <div class="idea-title">${idea.title}</div>
+                        </div>
+                    </div>
+                    <p class="idea-content">${idea.description}</p>
+                    <div class="idea-footer">
+                        <span class="idea-date">Added: ${new Date(idea.dateAdded).toLocaleDateString()}</span>
+                        <button class="dismiss-btn" onclick="dismissIdea('${idea.id}')">Dismiss</button>
+                    </div>
+                </div>
+            `).join('');
         }
         
         async function dismissIdea(ideaId) {
