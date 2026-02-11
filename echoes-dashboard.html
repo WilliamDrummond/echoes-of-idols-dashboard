@@ -737,7 +737,60 @@
             renderMembers();
             renderEtsyProducts();
             renderCultsProducts();
+            renderCompetitors();
             initCharts();
+        }
+
+        async function renderCompetitors() {
+            try {
+                const response = await fetch('competitor-data.json');
+                if (!response.ok) throw new Error('No competitor data available');
+                
+                const data = await response.json();
+                const competitorList = document.getElementById('competitor-list');
+                
+                if (!data.competitors || data.competitors.length === 0) {
+                    competitorList.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary);">No competitor data available yet.</div>';
+                    return;
+                }
+                
+                let html = data.competitors.map((c, i) => {
+                    const badgeStyle = c.badge === 'Bestseller' 
+                        ? 'background: rgba(243, 112, 31, 0.15); color: #F3701F;'
+                        : 'background: rgba(168, 85, 247, 0.15); color: #a855f7;';
+                    
+                    const badgeIcon = c.badge === 'Bestseller' ? '🏆' : (c.badge === 'Popular now' ? '🔥' : i+1);
+                    
+                    const badgeHtml = c.badge 
+                        ? `<span style="color: ${c.badge === 'Bestseller' ? '#F3701F' : '#f59e0b'}; font-weight: 600;">${c.badge}</span>`
+                        : '';
+                    
+                    return `
+                        <div class="model-item">
+                            <div class="model-rank" style="${c.badge ? badgeStyle : ''}">${badgeIcon}</div>
+                            <div class="model-info">
+                                <div class="model-name">${c.name}</div>
+                                <div class="model-stats">${c.shop} ${badgeHtml ? '• ' + badgeHtml : ''}</div>
+                            </div>
+                            <div class="model-downloads">${c.price}</div>
+                            <a href="${c.url}" target="_blank" style="margin-left: 8px; color: var(--accent); text-decoration: none; font-size: 0.8rem;">View →</a>
+                        </div>
+                    `;
+                }).join('');
+                
+                const snapshot = `
+                    <div style="margin-top: 16px; padding: 12px; background: var(--accent-dim); border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary);">
+                        <strong style="color: var(--text-primary);">Market Snapshot:</strong> ${data.totalResults || '~990'} Stray Kids 3D print listings on Etsy. Keychain market crowded at AU$10-12. Your premium bags (AU$140) occupy unique high-end niche.
+                        <br><small style="opacity: 0.7;">Last updated: ${new Date(data.lastUpdated).toLocaleString()}</small>
+                    </div>
+                `;
+                
+                competitorList.innerHTML = html + snapshot;
+                
+            } catch (error) {
+                console.log('Using static competitor data (no JSON file found)');
+                // Keep the existing static HTML if no JSON file exists
+            }
         }
 
         function renderTopModels() {
