@@ -1,0 +1,28 @@
+{
+  "ideas": [
+    {
+      "id": "idea-001",
+      "title": "Multi-Platform Sell-Through",
+      "icon": "📊",
+      "description": "Create a unified view that calculates 'True Sell-Through' by combining views/downloads from Thangs with actual sales on Etsy to verify which designs translate to physical demand.",
+      "dateAdded": "2026-02-10",
+      "dismissed": false
+    },
+    {
+      "id": "idea-002",
+      "title": "Customer Sentiment AI",
+      "icon": "💬",
+      "description": "Scrape Etsy reviews and Thangs comments weekly. Use Gemini/Claude to summarize 'Feature Requests' and 'Common Complaints' for product iteration.",
+      "dateAdded": "2026-02-10",
+      "dismissed": false
+    },
+    {
+      "id": "idea-003",
+      "title": "Auto-Gallery Update",
+      "icon": "🖼️",
+      "description": "When a new 'Make' is posted on Thangs or a photo review on Etsy, automatically save the image to a 'Social Proof' folder for Instagram reposting.",
+      "dateAdded": "2026-02-10",
+      "dismissed": false
+    }
+  ]
+}

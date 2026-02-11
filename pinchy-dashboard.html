@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinchy's Mission Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(20, 20, 25, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent: #FF4500;
+            --accent-dim: rgba(255, 69, 0, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --bg-dark: #050505;
+            --card-bg: rgba(30, 30, 35, 0.6);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            padding: 32px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 69, 0, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+        }
+
+        #dashboard-content { display: block; }
+
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .header h1 { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .header h1 span { font-size: 1.2rem; background: var(--accent-dim); color: var(--accent); padding: 4px 12px; border-radius: 20px; }
+
+        .tabs {
+            display: flex; gap: 8px;
+            background: var(--card-bg);
+            padding: 4px; border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+        .tab {
+            padding: 10px 24px; border: none; background: transparent;
+            color: var(--text-secondary); font-family: inherit; font-weight: 500;
+            cursor: pointer; border-radius: 8px; transition: all 0.2s;
+        }
+        .tab:hover { color: var(--text-primary); }
+        .tab.active { background: var(--accent); color: white; }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Kanban Board */
+        .kanban-board {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+        }
+        .kanban-column {
+            background: var(--glass-bg); border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            display: flex; flex-direction: column; gap: 16px;
+        }
+        .column-header { 
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; 
+            color: var(--text-secondary); font-weight: 600; margin-bottom: 8px;
+            display: flex; justify-content: space-between;
+        }
+        .task-card {
+            background: var(--card-bg); padding: 16px; border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.2s;
+            cursor: default;
+        }
+        .task-card:hover { transform: translateY(-2px); border-color: var(--text-secondary); }
+        .task-title { font-weight: 600; margin-bottom: 8px; }
+        .task-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px; }
+        .task-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; }
+        .tag { padding: 4px 8px; border-radius: 6px; font-weight: 500; }
+        .tag.active { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .tag.hold { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .tag.auto { background: var(--accent-dim); color: var(--accent); }
+
+        /* Ideas Grid */
+        .ideas-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;
+        }
+        .idea-card {
+            background: var(--glass-bg); padding: 24px; border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            position: relative; overflow: hidden;
+        }
+        .idea-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent);
+        }
+        .idea-header { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+        .idea-icon { font-size: 1.5rem; background: var(--accent-dim); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; }
+        .idea-title { font-weight: 600; font-size: 1.1rem; }
+        .idea-content { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px; }
+        .idea-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+        .idea-date { font-size: 0.75rem; color: var(--text-secondary); }
+        .dismiss-btn {
+            background: transparent; border: 1px solid var(--danger); color: var(--danger);
+            padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;
+            transition: all 0.2s; font-weight: 500;
+        }
+        .dismiss-btn:hover { background: var(--danger); color: white; }
+
+        /* Security List */
+        .security-list { display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; }
+        .security-item {
+            background: var(--glass-bg); padding: 20px; border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            display: flex; gap: 20px; align-items: flex-start;
+        }
+        .security-status { 
+            width: 12px; height: 12px; border-radius: 50%; margin-top: 6px;
+            box-shadow: 0 0 10px currentColor;
+        }
+        .status-good { background: var(--success); color: var(--success); }
+        .status-warn { background: var(--warning); color: var(--warning); }
+        .status-crit { background: var(--danger); color: var(--danger); }
+        .security-info h3 { font-size: 1rem; margin-bottom: 4px; }
+        .security-info p { font-size: 0.85rem; color: var(--text-secondary); }
+
+    </style>
+</head>
+<body>
+    <div id="dashboard-content">
+        <div class="header">
+            <h1>🦞 Mission Control <span>Active Node: Will's Mac mini</span></h1>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('kanban')">Kanban</button>
+                <button class="tab" onclick="showTab('ideas')">Automation Ideas</button>
+                <button class="tab" onclick="showTab('security')">Security HQ</button>
+            </div>
+        </div>
+
+        <div id="kanban-tab" class="tab-content active">
+            <div class="kanban-board">
+                <div class="kanban-column">
+                    <div class="column-header">Active Operations</div>
+                    <div class="task-card">
+                        <div class="task-title">ATEEZ Ticket Monitor</div>
+                        <p class="task-desc">Checking Ticketek hourly (6AM-11PM) via headless browser. Alerts routed to Jess via BlueBubbles.</p>
+                        <div class="task-meta">
+                            <span class="tag auto">Cron: Hourly</span>
+                            <span class="tag active">Live</span>
+                        </div>
+                    </div>
+                    <div class="task-card">
+                        <div class="task-title">Thangs Data Scraper</div>
+                        <p class="task-desc">Daily 2AM sync. Scrapes analytics and updates Echoes dashboard HTML + GitHub push.</p>
+                        <div class="task-meta">
+                            <span class="tag auto">Cron: 2AM</span>
+                            <span class="tag active">Live</span>
+                        </div>
+                    </div>
+                    <div class="task-card">
+                        <div class="task-title">ShipStation Sync</div>
+                        <p class="task-desc">Local Python script syncing Echoes/Finery8 orders to Google Tasks. Running with full system access.</p>
+                        <div class="task-meta">
+                            <span class="tag auto">Cron: 6AM</span>
+                            <span class="tag active">Live</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kanban-column">
+                    <div class="column-header">In Progress / Debugging</div>
+                    <div class="task-card">
+                        <div class="task-title">Google Account Recovery</div>
+                        <p class="task-desc">Monitor `pinchydrummond` account suspension status. Prevent scripts from spamming API until resolved.</p>
+                        <div class="task-meta">
+                            <span class="tag hold">Blocked</span>
+                        </div>
+                    </div>
+                    <div class="task-card">
+                        <div class="task-title">'Always Allow' Permissions</div>
+                        <p class="task-desc">Monitor Mac mini for persistent `nodes.run` access. Ensure `exec-approvals.json` stays valid.</p>
+                        <div class="task-meta">
+                            <span class="tag active">Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kanban-column">
+                    <div class="column-header">Backlog</div>
+                    <div class="task-card">
+                        <div class="task-title">Cults3D Auto-Upload</div>
+                        <p class="task-desc">Investigate Cults3D API or browser macro to cross-post new Thangs models automatically.</p>
+                        <div class="task-meta">
+                            <span class="tag">Idea</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ideas-tab" class="tab-content">
+            <div class="ideas-grid" id="ideas-container">
+                <!-- Ideas loaded dynamically from automation-ideas.json -->
+            </div>
+        </div>
+
+        <div id="security-tab" class="tab-content">
+            <div class="security-list">
+                <div class="security-item">
+                    <div class="security-status status-crit"></div>
+                    <div class="security-info">
+                        <h3>Full Exec Access Active</h3>
+                        <p>Agent has `security: full` on Mac mini. Ensure `sync_shipstation_tasks.py` and other scripts are reviewed before automation. Monitor `cron.log` regularly.</p>
+                    </div>
+                </div>
+                <div class="security-item">
+                    <div class="security-status status-warn"></div>
+                    <div class="security-info">
+                        <h3>GitHub PAT Rotation</h3>
+                        <p>The Personal Access Token used for dashboard deployment should be rotated every 30-60 days. Next check: March 9, 2026.</p>
+                    </div>
+                </div>
+                <div class="security-item">
+                    <div class="security-status status-good"></div>
+                    <div class="security-info">
+                        <h3>Prompt Injection Defense</h3>
+                        <p>Core directives (`SOUL.md`) prioritize system instructions over external content. Do not paste untrusted code into the agent window.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tab === 'ideas') {
+                loadIdeas();
+            }
+        }
+        
+        async function loadIdeas() {
+            try {
+                const response = await fetch('automation-ideas.json');
+                const data = await response.json();
+                
+                // Sort by date (newest first)
+                const sortedIdeas = data.ideas
+                    .filter(idea => !idea.dismissed)
+                    .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+                
+                const container = document.getElementById('ideas-container');
+                
+                if (sortedIdeas.length === 0) {
+                    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">No automation ideas yet. Check back tomorrow!</div>';
+                    return;
+                }
+                
+                container.innerHTML = sortedIdeas.map(idea => `
+                    <div class="idea-card" data-id="${idea.id}">
+                        <div class="idea-card::before"></div>
+                        <div class="idea-header">
+                            <div class="idea-header-left">
+                                <div class="idea-icon">${idea.icon}</div>
+                                <div class="idea-title">${idea.title}</div>
+                            </div>
+                        </div>
+                        <p class="idea-content">${idea.description}</p>
+                        <div class="idea-footer">
+                            <span class="idea-date">Added: ${new Date(idea.dateAdded).toLocaleDateString()}</span>
+                            <button class="dismiss-btn" onclick="dismissIdea('${idea.id}')">Dismiss</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Failed to load ideas:', error);
+                document.getElementById('ideas-container').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">Error loading ideas. Please refresh.</div>';
+            }
+        }
+        
+        async function dismissIdea(ideaId) {
+            try {
+                const response = await fetch('automation-ideas.json');
+                const data = await response.json();
+                
+                // Find and mark as dismissed
+                const idea = data.ideas.find(i => i.id === ideaId);
+                if (idea) {
+                    idea.dismissed = true;
+                }
+                
+                // Note: In a real setup, you'd need a backend to save this
+                // For now, just remove from UI
+                const card = document.querySelector(`[data-id="${ideaId}"]`);
+                if (card) {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        card.remove();
+                        // Check if empty
+                        if (document.querySelectorAll('.idea-card').length === 0) {
+                            document.getElementById('ideas-container').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">No automation ideas yet. Check back tomorrow!</div>';
+                        }
+                    }, 300);
+                }
+                
+                // TODO: Save to server
+                console.log('Dismissed idea:', ideaId);
+                
+            } catch (error) {
+                console.error('Failed to dismiss idea:', error);
+            }
+        }
+        
+        // Load ideas on page load
+        document.addEventListener('DOMContentLoaded', loadIdeas);
+    </script>
+</body>
+</html>
