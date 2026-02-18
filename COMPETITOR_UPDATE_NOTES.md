@@ -46,3 +46,5 @@ Modify the cron job to update the `echoes-dashboard.html` file's competitor sect
 ## Current Placeholder Data
 The dashboard currently shows hardcoded competitor data from the Feb 11 market scan.
 Replace the placeholder Etsy listing URLs with actual URLs from the cron job output.
+
+- 2026-02-18 22:13 : Daily sync ran. Thangs analytics scraped successfully (views 9.1K, likes 155, downloads 255, total plan purchases 47, unpaid earnings A$1,007.59). Cults3D `/en/sales` was login-gated; existing Cults metrics kept.
