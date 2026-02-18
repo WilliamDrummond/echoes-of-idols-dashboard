@@ -23,6 +23,26 @@
       "description": "When a new 'Make' is posted on Thangs or a photo review on Etsy, automatically save the image to a 'Social Proof' folder for Instagram reposting.",
       "dateAdded": "2026-02-10",
       "dismissed": false
+    },
+    {
+      "id": "idea-004",
+      "title": "Weekly SKU Profitability Snapshot",
+      "emoji": "💹",
+      "icon": "💹",
+      "description": "Automatically pull last 7 days of Etsy orders, subtract estimated material + shipping costs per SKU, and post a ranked list of top and bottom performers so pricing and product focus can be adjusted quickly.",
+      "date": "2026-02-18",
+      "dateAdded": "2026-02-18",
+      "dismissed": false
+    },
+    {
+      "id": "idea-005",
+      "title": "Out-of-Stock Risk Alert",
+      "emoji": "📦",
+      "icon": "📦",
+      "description": "Each evening, estimate filament and packaging burn-rate from recent order volume and send an alert when any key material is projected to run out within 7 days.",
+      "date": "2026-02-18",
+      "dateAdded": "2026-02-18",
+      "dismissed": false
     }
   ]
 }
