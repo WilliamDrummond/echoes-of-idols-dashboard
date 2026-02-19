@@ -1,49 +1,25 @@
 {
-  "lastUpdated": "2026-02-19T10:46:58.595351Z",
-  "totalResults": "905",
+  "lastUpdated": "2026-02-19T15:00:00.000Z",
+  "totalResults": "990",
   "competitors": [
     {
       "rank": 1,
       "name": "Stray Kids (Dominate SKZOO) Keychains STL File",
       "shop": "KitsuneCraftiness",
-      "price": "AU$4.07",
+      "price": "AU$4.08",
       "badge": null,
       "url": "https://www.etsy.com/au/listing/4345056272"
     },
     {
       "rank": 2,
-      "name": "SKZOO 3D Printed Keycap | Stray Kids OT8 Collectible | KPOP Fan Gift | SKZ Merch Decor",
-      "shop": "FATFACTORYCo",
-      "price": "AU$9.48",
-      "badge": null,
-      "url": "https://www.etsy.com/au/listing/4435882256"
-    },
-    {
-      "rank": 3,
       "name": "Skzoo 3D Figure, OT8, Skzoo Collectible, Stray Kids Gift, SKZ Merch, KPOP 3D Print",
       "shop": "skzoowears",
-      "price": "AU$22.08",
+      "price": "AU$22.09",
       "badge": null,
       "url": "https://www.etsy.com/au/listing/1760872939"
     },
     {
-      "rank": 4,
-      "name": "Stray Kids 3D print figures, Japan Toy World Fanmeeting, Stray Kids merch, 3D collectible",
-      "shop": "NRZbabySTAY",
-      "price": "AU$11.85",
-      "badge": null,
-      "url": "https://www.etsy.com/au/listing/1754515963"
-    },
-    {
-      "rank": 5,
-      "name": "Han Quokka 3D Printed Car Figurine | SKZOO 3D Printed Car Figurine | Stray Kids OT8 Collectible",
-      "shop": "FATFACTORYCo",
-      "price": "AU$17.06",
-      "badge": "Limited stock",
-      "url": "https://www.etsy.com/au/listing/1867966532"
-    },
-    {
-      "rank": 6,
+      "rank": 3,
       "name": "3D File- KPOP Lightstick Stand for SKZ Stray Kids",
       "shop": "Eveandpysche",
       "price": "AU$8.15",
@@ -51,12 +27,36 @@
       "url": "https://www.etsy.com/au/listing/4327169916"
     },
     {
-      "rank": 7,
+      "rank": 4,
       "name": "Wolf Chan 3D Printed Car Figurine | SKZOO 3D Printed Car Figurine | Stray Kids OT8 Collectible",
       "shop": "FATFACTORYCo",
-      "price": "AU$17.06",
+      "price": "AU$17.07",
       "badge": "Limited stock",
       "url": "https://www.etsy.com/au/listing/1878770225"
+    },
+    {
+      "rank": 5,
+      "name": "Mini Skzoo Figures | K-Pop Idol-Inspired Animal Figures | Cute 3D Printed Fan Collectibles",
+      "shop": "3DMirageCo",
+      "price": "AU$9.64",
+      "badge": "Bestseller",
+      "url": "https://www.etsy.com/au/listing/4317597384"
+    },
+    {
+      "rank": 6,
+      "name": "SKZOO 3D Printed Keycap | Stray Kids OT8 Collectible | KPOP Fan Gift | SKZ Merch Decor",
+      "shop": "FATFACTORYCo",
+      "price": "AU$9.48",
+      "badge": null,
+      "url": "https://www.etsy.com/au/listing/4435882256"
+    },
+    {
+      "rank": 7,
+      "name": "Skzoo Figures, Stray Kids Figure, 3D Printed SKZOO, Pilot Skzoo",
+      "shop": "skzoowears",
+      "price": "AU$13.19",
+      "badge": null,
+      "url": "https://www.etsy.com/au/listing/4357625983"
     },
     {
       "rank": 8,
@@ -68,19 +68,19 @@
     },
     {
       "rank": 9,
-      "name": "Skzoo Figures, Stray Kids Figure, 3D Printed SKZOO, Pilot Skzoo",
-      "shop": "skzoowears",
-      "price": "AU$13.19",
+      "name": "Stray Kids 3D print figures, Japan Toy World Fanmeeting, Stray Kids merch, 3D collectible",
+      "shop": "NRZbabySTAY",
+      "price": "AU$11.86",
       "badge": null,
-      "url": "https://www.etsy.com/au/listing/4357625983"
+      "url": "https://www.etsy.com/au/listing/1754515963"
     },
     {
       "rank": 10,
-      "name": "Mini Skzoo Figures | K-Pop Idol-Inspired Animal Figures | Cute 3D Printed Fan Collectibles",
-      "shop": "3DMirageCo",
-      "price": "AU$9.63",
-      "badge": "Bestseller",
-      "url": "https://www.etsy.com/au/listing/4317597384"
+      "name": "Han Quokka 3D Printed Car Figurine | SKZOO 3D Printed Car Figurine | Stray Kids OT8 Collectible",
+      "shop": "FATFACTORYCo",
+      "price": "AU$17.07",
+      "badge": "Limited stock",
+      "url": "https://www.etsy.com/au/listing/1867966532"
     }
   ]
 }
