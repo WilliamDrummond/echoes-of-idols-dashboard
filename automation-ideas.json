@@ -43,6 +43,22 @@
       "date": "2026-02-18",
       "dateAdded": "2026-02-18",
       "dismissed": false
+    },
+    {
+      "id": "idea-006",
+      "title": "Listing Underperformer Nudge",
+      "emoji": "🧪",
+      "description": "Every Monday, flag Etsy listings with high views but low conversion over the last 14 days and generate one suggested tweak (title, thumbnail, or price) to test this week.",
+      "date": "2026-02-19",
+      "dismissed": false
+    },
+    {
+      "id": "idea-007",
+      "title": "Repeat Buyer Thank-You Trigger",
+      "emoji": "🙏",
+      "description": "Automatically detect repeat customers and draft a personalized thank-you message with a small coupon code, ready for one-click send after each qualifying order.",
+      "date": "2026-02-19",
+      "dismissed": false
     }
   ]
 }

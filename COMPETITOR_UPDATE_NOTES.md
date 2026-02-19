@@ -49,3 +49,4 @@ Replace the placeholder Etsy listing URLs with actual URLs from the cron job out
 
 - 2026-02-18 22:13 : Daily sync ran. Thangs analytics scraped successfully (views 9.1K, likes 155, downloads 255, total plan purchases 47, unpaid earnings A$1,007.59). Cults3D `/en/sales` was login-gated; existing Cults metrics kept.
 - 2026-02-19 02:02 : Daily sync ran. Thangs analytics scraped successfully (views 9.1K, likes 155, downloads 255, total plan purchases 47, unpaid earnings A$1,007.59). Cults3D `/en/sales` was login-gated; existing Cults metrics kept.
+- 2026-02-20 02:01 : Daily sync ran. Thangs analytics scraped successfully (views 9.1K, likes 155, downloads 255, total plan purchases 47, unpaid earnings A$1,007.59). Cults3D `/en/sales` redirected to log-in; existing Cults metrics kept.
