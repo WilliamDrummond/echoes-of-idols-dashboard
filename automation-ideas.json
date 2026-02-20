@@ -59,6 +59,22 @@
       "description": "Automatically detect repeat customers and draft a personalized thank-you message with a small coupon code, ready for one-click send after each qualifying order.",
       "date": "2026-02-19",
       "dismissed": false
+    },
+    {
+      "id": "idea-008",
+      "title": "Refund Spike Detector",
+      "emoji": "🚨",
+      "description": "Run a daily check on Etsy cancellations and refunds; if any SKU exceeds a 7-day refund-rate threshold, send an alert with the top likely causes from recent customer messages so issues can be fixed before momentum drops.",
+      "date": "2026-02-20",
+      "dismissed": false
+    },
+    {
+      "id": "idea-009",
+      "title": "Fast-Mover Reprint Queue",
+      "emoji": "🖨️",
+      "description": "Each morning, identify SKUs with accelerating sales velocity and auto-generate a prioritized print queue with suggested quantities based on the last 14 days to reduce stockouts and idle printer time.",
+      "date": "2026-02-20",
+      "dismissed": false
     }
   ]
 }
