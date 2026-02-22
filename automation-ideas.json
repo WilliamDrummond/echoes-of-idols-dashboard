@@ -3,7 +3,7 @@
     {
       "id": "idea-001",
       "title": "Multi-Platform Sell-Through",
-      "icon": "\ud83d\udcca",
+      "icon": "📊",
       "description": "Create a unified view that calculates 'True Sell-Through' by combining views/downloads from Thangs with actual sales on Etsy to verify which designs translate to physical demand.",
       "dateAdded": "2026-02-10",
       "dismissed": false
@@ -11,7 +11,7 @@
     {
       "id": "idea-002",
       "title": "Customer Sentiment AI",
-      "icon": "\ud83d\udcac",
+      "icon": "💬",
       "description": "Scrape Etsy reviews and Thangs comments weekly. Use Gemini/Claude to summarize 'Feature Requests' and 'Common Complaints' for product iteration.",
       "dateAdded": "2026-02-10",
       "dismissed": false
@@ -19,7 +19,7 @@
     {
       "id": "idea-003",
       "title": "Auto-Gallery Update",
-      "icon": "\ud83d\uddbc\ufe0f",
+      "icon": "🖼️",
       "description": "When a new 'Make' is posted on Thangs or a photo review on Etsy, automatically save the image to a 'Social Proof' folder for Instagram reposting.",
       "dateAdded": "2026-02-10",
       "dismissed": false
@@ -27,8 +27,8 @@
     {
       "id": "idea-004",
       "title": "Weekly SKU Profitability Snapshot",
-      "emoji": "\ud83d\udcb9",
-      "icon": "\ud83d\udcb9",
+      "emoji": "💹",
+      "icon": "💹",
       "description": "Automatically pull last 7 days of Etsy orders, subtract estimated material + shipping costs per SKU, and post a ranked list of top and bottom performers so pricing and product focus can be adjusted quickly.",
       "date": "2026-02-18",
       "dateAdded": "2026-02-18",
@@ -37,8 +37,8 @@
     {
       "id": "idea-005",
       "title": "Out-of-Stock Risk Alert",
-      "emoji": "\ud83d\udce6",
-      "icon": "\ud83d\udce6",
+      "emoji": "📦",
+      "icon": "📦",
       "description": "Each evening, estimate filament and packaging burn-rate from recent order volume and send an alert when any key material is projected to run out within 7 days.",
       "date": "2026-02-18",
       "dateAdded": "2026-02-18",
@@ -47,7 +47,7 @@
     {
       "id": "idea-006",
       "title": "Listing Underperformer Nudge",
-      "emoji": "\ud83e\uddea",
+      "emoji": "🧪",
       "description": "Every Monday, flag Etsy listings with high views but low conversion over the last 14 days and generate one suggested tweak (title, thumbnail, or price) to test this week.",
       "date": "2026-02-19",
       "dismissed": false
@@ -55,7 +55,7 @@
     {
       "id": "idea-007",
       "title": "Repeat Buyer Thank-You Trigger",
-      "emoji": "\ud83d\ude4f",
+      "emoji": "🙏",
       "description": "Automatically detect repeat customers and draft a personalized thank-you message with a small coupon code, ready for one-click send after each qualifying order.",
       "date": "2026-02-19",
       "dismissed": false
@@ -63,7 +63,7 @@
     {
       "id": "idea-008",
       "title": "Refund Spike Detector",
-      "emoji": "\ud83d\udea8",
+      "emoji": "🚨",
       "description": "Run a daily check on Etsy cancellations and refunds; if any SKU exceeds a 7-day refund-rate threshold, send an alert with the top likely causes from recent customer messages so issues can be fixed before momentum drops.",
       "date": "2026-02-20",
       "dismissed": false
@@ -71,7 +71,7 @@
     {
       "id": "idea-009",
       "title": "Fast-Mover Reprint Queue",
-      "emoji": "\ud83d\udda8\ufe0f",
+      "emoji": "🖨️",
       "description": "Each morning, identify SKUs with accelerating sales velocity and auto-generate a prioritized print queue with suggested quantities based on the last 14 days to reduce stockouts and idle printer time.",
       "date": "2026-02-20",
       "dismissed": false
@@ -79,7 +79,7 @@
     {
       "id": "idea-010",
       "title": "Delivery Delay Early Warning",
-      "emoji": "\u23f1\ufe0f",
+      "emoji": "⏱️",
       "description": "Check open Etsy orders twice daily against promised dispatch windows and flag any order likely to miss ship-by date in the next 24 hours, with a suggested customer update template to prevent late-shipment penalties.",
       "date": "2026-02-21",
       "dismissed": false
@@ -87,9 +87,25 @@
     {
       "id": "idea-011",
       "title": "Bundle Opportunity Finder",
-      "emoji": "\ud83e\udde9",
+      "emoji": "🧩",
       "description": "Weekly, detect product pairs that are frequently bought by the same customer within 30 days and suggest 1-2 bundle listings with target bundle price and expected margin uplift.",
       "date": "2026-02-21",
+      "dismissed": false
+    },
+    {
+      "id": "idea-012",
+      "title": "Abandoned Cart Recovery Drafts",
+      "emoji": "🛒",
+      "description": "Every 6 hours, pull Etsy abandoned-cart events (where available) and auto-draft short recovery messages or offer snippets for high-intent shoppers, sorted by estimated order value.",
+      "date": "2026-02-22",
+      "dismissed": false
+    },
+    {
+      "id": "idea-013",
+      "title": "Print Failure Pattern Tracker",
+      "emoji": "🧯",
+      "description": "Log failed prints by SKU, material, and printer, then send a weekly report highlighting repeat failure patterns and the top setup changes to test to reduce wasted filament and machine time.",
+      "date": "2026-02-22",
       "dismissed": false
     }
   ]
