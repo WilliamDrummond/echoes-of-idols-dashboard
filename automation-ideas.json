@@ -107,6 +107,22 @@
       "description": "Log failed prints by SKU, material, and printer, then send a weekly report highlighting repeat failure patterns and the top setup changes to test to reduce wasted filament and machine time.",
       "date": "2026-02-22",
       "dismissed": false
+    },
+    {
+      "title": "Late Reply Risk Monitor",
+      "emoji": "📬",
+      "description": "Scan Etsy messages every hour and alert when any buyer thread is within 6 hours of Etsy's 24-hour response target, with a one-paragraph draft reply to protect Star Seller metrics.",
+      "date": "2026-02-23",
+      "dismissed": false,
+      "id": "idea-014"
+    },
+    {
+      "title": "Price Change Impact Tracker",
+      "emoji": "🏷️",
+      "description": "When a listing price is changed, automatically track 14-day before/after conversion and revenue per visitor, then post a simple verdict (improved, neutral, worse) to guide future pricing decisions.",
+      "date": "2026-02-23",
+      "dismissed": false,
+      "id": "idea-015"
     }
   ]
 }
