@@ -123,6 +123,22 @@
       "date": "2026-02-23",
       "dismissed": false,
       "id": "idea-015"
+    },
+    {
+      "id": "idea-016",
+      "title": "Social Trend Momentum Alerts",
+      "emoji": "🔥",
+      "description": "Weekly, scan Twitter/TikTok for Stray Kids-related hashtag spikes and suggest one limited-time print accessory or modification (e.g., concert-specific charms) to capture short-term hype windows.",
+      "date": "2026-02-26",
+      "dismissed": false
+    },
+    {
+      "id": "idea-017",
+      "title": "Packaging Weight Optimizer",
+      "emoji": "⚖️",
+      "description": "Cross-reference actual shipping weights of delivered orders with postage classes and flag SKUs where a minor design or packaging change (e.g., 5g reduction) could drop the item into a cheaper shipping tier.",
+      "date": "2026-02-26",
+      "dismissed": false
     }
   ]
 }
