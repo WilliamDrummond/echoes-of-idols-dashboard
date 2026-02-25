@@ -109,42 +109,34 @@
       "dismissed": false
     },
     {
+      "id": "idea-014",
       "title": "Late Reply Risk Monitor",
       "emoji": "📬",
       "description": "Scan Etsy messages every hour and alert when any buyer thread is within 6 hours of Etsy's 24-hour response target, with a one-paragraph draft reply to protect Star Seller metrics.",
       "date": "2026-02-23",
-      "dismissed": false,
-      "id": "idea-014"
+      "dismissed": false
     },
     {
+      "id": "idea-015",
       "title": "Price Change Impact Tracker",
       "emoji": "🏷️",
       "description": "When a listing price is changed, automatically track 14-day before/after conversion and revenue per visitor, then post a simple verdict (improved, neutral, worse) to guide future pricing decisions.",
       "date": "2026-02-23",
-      "dismissed": false,
-      "id": "idea-015"
+      "dismissed": false
     },
     {
       "id": "idea-016",
-      "title": "Social Trend Momentum Alerts",
-      "emoji": "🔥",
-      "description": "Weekly, scan Twitter/TikTok for Stray Kids-related hashtag spikes and suggest one limited-time print accessory or modification (e.g., concert-specific charms) to capture short-term hype windows.",
+      "title": "Competitor Badge Migration Tracker",
+      "emoji": "🎖️",
+      "description": "Monitor when a competitor's item gains or loses an Etsy 'Bestseller' or 'Popular Now' badge and notify if a price change or listing update by that shop preceded the badge shift.",
       "date": "2026-02-26",
       "dismissed": false
     },
     {
       "id": "idea-017",
-      "title": "Packaging Weight Optimizer",
-      "emoji": "⚖️",
-      "description": "Cross-reference actual shipping weights of delivered orders with postage classes and flag SKUs where a minor design or packaging change (e.g., 5g reduction) could drop the item into a cheaper shipping tier.",
-      "date": "2026-02-26",
-      "dismissed": false
-    },
-    {
-      "id": "idea-018",
-      "title": "Competitor Badge Migration Tracker",
-      "emoji": "🎖️",
-      "description": "Monitor when a competitor's item gains or loses an Etsy 'Bestseller' or 'Popular Now' badge and notify if a price change or listing update by that shop preceded the badge shift.",
+      "title": "Filament Color Demand Predictor",
+      "emoji": "🌈",
+      "description": "Analyze incoming orders for color-specific variations and generate a 'Material Shopping List' that predicts which secondary colors (e.g., specific SKZOO character colors) will need restocking based on rolling 30-day velocity.",
       "date": "2026-02-26",
       "dismissed": false
     }
