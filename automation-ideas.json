@@ -139,6 +139,14 @@
       "description": "Cross-reference actual shipping weights of delivered orders with postage classes and flag SKUs where a minor design or packaging change (e.g., 5g reduction) could drop the item into a cheaper shipping tier.",
       "date": "2026-02-26",
       "dismissed": false
+    },
+    {
+      "id": "idea-018",
+      "title": "Competitor Badge Migration Tracker",
+      "emoji": "🎖️",
+      "description": "Monitor when a competitor's item gains or loses an Etsy 'Bestseller' or 'Popular Now' badge and notify if a price change or listing update by that shop preceded the badge shift.",
+      "date": "2026-02-26",
+      "dismissed": false
     }
   ]
 }
